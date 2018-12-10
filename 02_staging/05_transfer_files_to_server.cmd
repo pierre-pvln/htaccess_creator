@@ -28,17 +28,17 @@ IF EXIST 04_folders.cmd (
    GOTO ERROR_EXIT
 )
 
-:: call ftp_htaccess_settings.cmd
+:: call staging_htaccess.cmd
 :: returns:
-:: - ftp_downloadserver
-:: - ftp_user_downloadserver
-:: - ftp_pw_downloadserver
+:: - staging_downloadserver
+:: - staging_user_downloadserver
+:: - staging_pw_downloadserver
 ::
 cd ..\..\..\_secrets
-IF EXIST ftp_htaccess_settings.cmd (
-   CALL ftp_htaccess_settings.cmd
+IF EXIST staging_htaccess.cmd (
+   CALL staging_htaccess.cmd
 ) ELSE (
-   SET ERROR_MESSAGE=File with ftp settings for this extension doesn't exist
+   SET ERROR_MESSAGE=File with staging settings for .htaccess building blocks doesn't exist
    GOTO ERROR_EXIT
 )
 
@@ -50,8 +50,8 @@ cd "%cmd_dir%"
 IF EXIST "..\09_temporary\_ftp_files.txt" (del "..\09_temporary\_ftp_files.txt")
 ::
 :: Create ..\09_temporary\_ftp_files.txt
-echo %ftp_user_downloadserver%>>..\09_temporary\_ftp_files.txt
-echo %ftp_pw_downloadserver%>>..\09_temporary\_ftp_files.txt
+echo %staging_user_downloadserver%>>..\09_temporary\_ftp_files.txt
+echo %staging_pw_downloadserver%>>..\09_temporary\_ftp_files.txt
 :: switch to binary mode
 echo binary>>..\09_temporary\_ftp_files.txt
 :: disable prompt; process the mput or mget without requiring any reply
@@ -70,7 +70,7 @@ FOR /f %%G in ('dir /b /A:D "%output_dir%"') DO (
 echo bye>>..\09_temporary\_ftp_files.txt
 
 :: run the actual FTP commandfile
-ftp -s:..\09_temporary\_ftp_files.txt %ftp_downloadserver%
+ftp -s:..\09_temporary\_ftp_files.txt %staging_downloadserver%
 del ..\09_temporary\_ftp_files.txt
 
 GOTO CLEAN_EXIT
