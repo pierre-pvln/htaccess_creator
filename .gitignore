@@ -5,7 +5,7 @@
 ##
 # Indicator folders
 ##
-@_*_/*
+@_*_@/*
 
 ##
 # backup files from build process
