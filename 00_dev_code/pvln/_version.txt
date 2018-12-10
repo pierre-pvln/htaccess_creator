@@ -1,4 +1,4 @@
-# Name:     _parameters.txt
+# Name:     _version.txt
 # Purpose:  set the versioning elements to a value
 # Author:   pierre.veelen@pvln.nl
 
@@ -20,4 +20,4 @@
 #
 majorversion=1
 minorversion=0
-patchversion=0
+patchversion=1
