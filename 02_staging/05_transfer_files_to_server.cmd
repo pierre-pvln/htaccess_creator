@@ -1,5 +1,5 @@
-:: Name:     05_staging_files_to_server.cmd
-:: Purpose:  FTP files to downloadserver
+:: Name:     05_transfer_files_to_server.cmd
+:: Purpose:  Transfer files to downloadserver
 :: Author:   pierre.veelen@pvln.nl
 ::
 
