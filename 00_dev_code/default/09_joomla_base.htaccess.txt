@@ -1,0 +1,47 @@
+#===================================
+# - BLOCK09 JOOMLA BASE STARTS HERE -
+#===================================
+# Revision: 2018 11 21 - Building blocks created
+#           2018 11 22 - Structure building blocks aligned
+#           2018 11 23 - <IfModule mod_rewrite.c> check added
+#
+# Inspiration: Default Joomla htaccess.txt file
+#
+#===================================
+#
+##
+# @package    Joomla
+# @copyright  Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
+# @license    GNU General Public License version 2 or later; see LICENSE.txt
+##
+#
+##
+# READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
+#
+# The line 'Options +FollowSymLinks' may cause problems with some server configurations.
+# It is required for the use of mod_rewrite, but it may have already been set by your 
+# server administrator in a way that disallows changing it in this .htaccess file.
+# If using it causes your site to produce an error, comment it out (add # to the 
+# beginning of the line), reload your site in your browser and test your sef urls. If 
+# they work, then it has been set by your server administrator and you do not need to 
+# set it here.
+##
+#
+## No directory listings
+<IfModule autoindex>
+  IndexIgnore *
+</IfModule>
+
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+## Can be commented out if causes errors, see notes above.
+	Options +FollowSymlinks
+	Options -Indexes
+</IfModule>
+
+#
+#===================================
+# - BLOCK09 JOOMLA BASE ENDS HERE -
+#===================================
+#

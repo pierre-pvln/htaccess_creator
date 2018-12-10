@@ -1,0 +1,29 @@
+#===================================
+# - BLOCK04 BAD BOTS FILTER STARTS HERE -
+#===================================
+# Revision: 2018 12 04 - Bad Bots Building blocks created
+#
+# Inspiration: https://www.htmlremix.com/seo/block-google-and-bots-using-htaccess-and-robots-txt
+#              http://tab-studio.com/en/blocking-robots-on-your-page/
+#
+#===================================
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+    RewriteCond %{HTTP_USER_AGENT} \
+ahrefs|\
+dotbot|\
+semrushbot\
+[NC]
+# Bots that are listed above will all:
+# [F] receive a 403 Forbidden error when trying to view your site. 
+# [L] stop processing the rule set. In most contexts, this means that if the rule matches, no further rules will be processed.
+    RewriteRule ^.* - [F,L]
+#
+</IfModule>
+
+#
+#===================================
+# - BLOCK04 BAD BOTS FILTER ENDS HERE -
+#===================================
+#

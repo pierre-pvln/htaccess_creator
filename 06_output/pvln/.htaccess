@@ -1,0 +1,115 @@
+#======================================================= 
+# .htaccess file created for: pvln 
+# build version: v1.0.0 
+# by script on : 20181207_142400 
+# More information is available in ...\pvln\htaccess_v1.0.0_comments.txt 
+#======================================================= 
+# 
+<IfModule mod_headers.c>
+	Header set Strict-Transport-Security "max-age=2592000" env=HTTPS
+	Header always set X-Frame-Options "SAMEORIGIN"
+	Header always set X-Xss-Protection "1; mode=block"
+	Header always set X-Content-Type-Options "nosniff"
+	Header set Referrer-Policy "no-referrer-when-downgrade"
+	Header set Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
+	Header set X-Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
+	Header set X-WebKit-CSP "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
+	Header set Feature-Policy "vibrate 'self'; sync-xhr 'self'"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+    RewriteCond %{HTTP_USER_AGENT} \
+ahrefs|\
+dotbot|\
+semrushbot\
+[NC]
+    RewriteRule ^.* - [F,L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/rss+xml
+	AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+	AddOutputFilterByType DEFLATE application/x-font
+	AddOutputFilterByType DEFLATE application/x-font-opentype
+	AddOutputFilterByType DEFLATE application/x-font-otf
+	AddOutputFilterByType DEFLATE application/x-font-truetype
+	AddOutputFilterByType DEFLATE application/x-font-ttf
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE application/xhtml+xml
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE font/opentype
+	AddOutputFilterByType DEFLATE font/otf
+	AddOutputFilterByType DEFLATE font/ttf
+	AddOutputFilterByType DEFLATE image/svg+xml
+	AddOutputFilterByType DEFLATE image/x-icon
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/javascript
+	AddOutputFilterByType DEFLATE text/plain
+	AddOutputFilterByType DEFLATE text/xml
+	BrowserMatch ^Mozilla/4 gzip-only-text/html
+	BrowserMatch ^Mozilla/4\.0[678] no-gzip
+	BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+	Header append Vary User-Agent
+</IfModule>
+
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresByType image/jpeg "access plus 1 year"
+	ExpiresByType image/gif "access plus 1 year"
+	ExpiresByType image/png "access plus 1 year"
+	ExpiresByType image/webp "access plus 1 year"
+	ExpiresByType image/svg+xml "access plus 1 year"
+	ExpiresByType image/x-icon "access plus 1 year"
+	ExpiresByType video/mp4 "access plus 1 year"
+	ExpiresByType video/mpeg "access plus 1 year"
+	ExpiresByType text/css "access plus 1 week"
+	ExpiresByType text/javascript "access plus 1 week"
+	ExpiresByType application/javascript "access plus 1 week"
+	ExpiresByType application/pdf "access plus 1 month"
+	ExpiresByType application/x-shockwave-flash "access plus 1 month"
+</IfModule>
+
+<IfModule autoindex>
+  IndexIgnore *
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	Options +FollowSymlinks
+	Options -Indexes
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+	RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+	RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+	RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+	RewriteRule .* index.php [F]
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteCond %{HTTP_HOST} !^www\.
+	RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+	RewriteCond %{HTTPS} !=on
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+	RewriteRule ^sitemap.xml$ component/osmap/?view=xml&id=1 [L]
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+	RewriteCond %{REQUEST_URI} !^/index\.php
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule .* index.php [L]
+</IfModule>
+

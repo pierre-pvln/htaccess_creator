@@ -1,0 +1,18 @@
+##
+# Ingore the following files for Git
+##
+
+##
+# Indicator folders
+##
+@_*_/*
+
+##
+# backup files from build process
+##
+**/backup
+
+##
+# temporary files from building and staging process
+##
+09_temporary/*

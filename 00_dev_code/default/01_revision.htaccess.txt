@@ -1,0 +1,22 @@
+#===================================
+# - BLOCK01 REVISION STARTS HERE -
+#===================================
+# 
+# This revision indicator only keeps track of changes of the number of the building blocks.
+# Changes within the building blocks are commented in the building block itself.
+#
+# Revision: 2018 11 10 - Added non-www to www redirect (replace <myHost.com> with actual hostname)
+#           2018 11 11 - Changed non-www to www redirect implementation to make it more generic (myHost.com not needed anymore)
+#                      - Hostname added in comment
+#           2018 11 21 - Building blocks created
+#           2018 11 22 - Structure building blocks aligned
+#           2018 11 23 - Unneeded empty lines removed
+#                      - <IfModule mod_rewrite.c> check added
+#           2018 11 30 - bad bots filter building block added
+#
+# Inspiration: -
+#
+#===================================
+# - BLOCK01 REVISION ENDS HERE -
+#===================================
+#

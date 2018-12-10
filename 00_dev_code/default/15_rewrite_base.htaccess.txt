@@ -1,0 +1,26 @@
+#===================================
+# - BLOCK15 REWRITE BASE STARTS HERE -
+#===================================
+# Revision: 2018 11 21 - Building blocks created
+#           2018 11 22 - Structure building blocks aligned
+#           2018 11 23 - <IfModule mod_rewrite.c> check added
+#
+# Inspiration: Default Joomla htaccess.txt file
+#
+#===================================
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+##
+# Uncomment the following line if your webserver's URL
+# is not directly related to physical file paths.
+# Update Your Joomla! Directory (just / for root).
+##
+#	RewriteBase /
+</IfModule>
+
+#
+#===================================
+# - BLOCK15 REWRITE BASE ENDS HERE -
+#===================================
+#

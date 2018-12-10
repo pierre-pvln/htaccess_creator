@@ -1,0 +1,40 @@
+#===================================
+# - BLOCK07 CACHING ADDITIONS STARTS HERE -
+#===================================
+# Revision: 2018 11 21 - Building blocks created
+#           2018 11 22 - Structure building blocks aligned
+#
+# Inspiration: https://gtmetrix.com/enable-gzip-compression.html
+#
+#===================================
+#
+<IfModule mod_expires.c>
+	ExpiresActive On
+#
+# Images
+	ExpiresByType image/jpeg "access plus 1 year"
+	ExpiresByType image/gif "access plus 1 year"
+	ExpiresByType image/png "access plus 1 year"
+	ExpiresByType image/webp "access plus 1 year"
+	ExpiresByType image/svg+xml "access plus 1 year"
+	ExpiresByType image/x-icon "access plus 1 year"
+#
+# Video
+	ExpiresByType video/mp4 "access plus 1 year"
+	ExpiresByType video/mpeg "access plus 1 year"
+#
+# CSS, JavaScript
+	ExpiresByType text/css "access plus 1 week"
+	ExpiresByType text/javascript "access plus 1 week"
+	ExpiresByType application/javascript "access plus 1 week"
+#
+# Others
+	ExpiresByType application/pdf "access plus 1 month"
+	ExpiresByType application/x-shockwave-flash "access plus 1 month"
+</IfModule>
+
+#
+#===================================
+# - BLOCK07 CACHING ADDITIONS ENDS HERE -
+#===================================
+#
