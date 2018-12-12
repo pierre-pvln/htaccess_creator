@@ -13,8 +13,23 @@
 @ECHO off
 SETLOCAL ENABLEEXTENSIONS
 
-:: TODO: Check if required environment variables are set
-
+:: Check if required environment variables are set
+IF "%site_name%" == "" (
+   SET ERROR_MESSAGE=Environment variable site_name not set.
+   GOTO ERROR_EXIT
+)
+IF "%extension_name%" == "" (
+   SET ERROR_MESSAGE=Environment variable extension_name not set.
+   GOTO ERROR_EXIT
+)
+IF "%deploy_folder%" == "" (
+   SET ERROR_MESSAGE=Environment variable deploy_folder not set.
+   GOTO ERROR_EXIT
+)
+IF "%secrets_folder%" == "" (
+   SET ERROR_MESSAGE=Environment variable secrets_folder not set.
+   GOTO ERROR_EXIT
+)
 
 :: BASIC SETTINGS
 :: ==============
