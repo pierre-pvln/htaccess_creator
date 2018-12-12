@@ -1,10 +1,20 @@
-:: Name:     05_ftp_file_to_server.cmd
+:: Name:     05_deploy_files_to_server.cmd
 :: Purpose:  FTP file to server
 :: Author:   pierre.veelen@pvln.nl
+::
+::
+:: Requires environments vaiables to be set:
+::  site_name
+::  extension_name
+::  deploy_folder
+::  secrets_folder
 ::
 
 @ECHO off
 SETLOCAL ENABLEEXTENSIONS
+
+:: TODO: Check if required environment variables are set
+
 
 :: BASIC SETTINGS
 :: ==============
@@ -19,7 +29,7 @@ SET cmd_dir=%~dp0
 
 :: STATIC VARIABLES
 :: ================
-CD ..\04_settings\
+::CD ..\04_settings\
 
 ::IF EXIST 00_name.cmd (
 ::   CALL 00_name.cmd
@@ -28,25 +38,26 @@ CD ..\04_settings\
 ::   GOTO ERROR_EXIT
 ::)
 
-IF EXIST 04_folders.cmd (
-   CALL 04_folders.cmd
-) ELSE (
-   SET ERROR_MESSAGE=File with folder settings doesn't exist
-   GOTO ERROR_EXIT
-)
+::IF EXIST 04_folders.cmd (
+::   CALL 04_folders.cmd
+::) ELSE (
+::   SET ERROR_MESSAGE=File with folder settings doesn't exist
+::   GOTO ERROR_EXIT
+::)
 
-::call ftp_%extension%_settings.cmd
-cd ..\..\..\_secrets
-IF EXIST ftp_htaccess_settings.cmd (
-   CALL ftp_htaccess_settings.cmd
+::call deploy_%extension_name%_%sitename%.cmd
+cd %secrets_folder%
+IF EXIST deploy_%extension_name%_%sitename%.cmd (
+   CALL deploy_%extension_name%_%sitename%.cmd
 ) ELSE (
-   SET ERROR_MESSAGE=File with ftp settings for this extension doesn't exist
+   SET ERROR_MESSAGE=File with deployment settings for the %extension_name% doesn't exist in %secrets_folder%
    GOTO ERROR_EXIT
 )
 
 echo xxxxxxxxxxxx 1 xx
 cd
 pause
+
 
 cd "%cmd_dir%" 
 IF NOT EXIST "_history" (MD "_history")
@@ -65,18 +76,18 @@ SET dtStamp24=%date:~9,4%%date:~6,2%%date:~3,2%_%time:~0,2%%time:~3,2%%time:~6,2
 IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 
 :: download current version from website
-echo %ftp_user_downloadserver%>>..\09_temporary\_ftp_files.txt
-echo %ftp_pw_downloadserver%>>..\09_temporary\_ftp_files.txt
+echo %deploy_user%>>..\09_temporary\_ftp_files.txt
+echo %deploy_pw%>>..\09_temporary\_ftp_files.txt
 :: switch to binary mode
 echo binary>>..\09_temporary\_ftp_files.txt
 :: disable prompt; process the mput or mget without requiring any reply
 echo prompt>>..\09_temporary\_ftp_files.txt
-echo cd %ftp_download_folder%>>..\09_temporary\_ftp_files.txt
+echo cd %deploy_folder%>>..\09_temporary\_ftp_files.txt
 echo get .htaccess>>..\09_temporary\_ftp_files.txt
 echo bye>>..\09_temporary\_ftp_files.txt
 
 :: run the actual FTP commandfile
-ftp -s:..\09_temporary\_ftp_files.txt %ftp_downloadserver%
+ftp -s:..\09_temporary\_ftp_files.txt %deploy_server%
 
 del ..\09_temporary\_ftp_files.txt
 
@@ -89,13 +100,13 @@ CURL http://download.pvln.nl/joomla/baselines/htaccess/pvln/.htacces --output .h
 COPY .htaccess. .htaccess_to_site_%dtStamp%.
 
 :: put the new version on the website
-echo %ftp_user_downloadserver%>>..\09_temporary\_ftp_files.txt
-echo %ftp_pw_downloadserver%>>..\09_temporary\_ftp_files.txt
+echo %deploy_user%>>..\09_temporary\_ftp_files.txt
+echo %deploy_pw%>>..\09_temporary\_ftp_files.txt
 :: switch to binary mode
 echo binary>>..\09_temporary\_ftp_files.txt
 :: disable prompt; process the mput or mget without requiring any reply
 echo prompt>>..\09_temporary\_ftp_files.txt
-echo cd %ftp_download_folder%>>..\09_temporary\_ftp_files.txt
+echo cd %deploy_folder%>>..\09_temporary\_ftp_files.txt
 ::echo put .htaccess>>..\09_temporary\_ftp_files.txt
 echo bye>>..\09_temporary\_ftp_files.txt
 
@@ -107,7 +118,7 @@ pause
 
 
 :: run the actual FTP commandfile
-ftp -s:..\09_temporary\_ftp_files.txt %ftp_downloadserver%
+ftp -s:..\09_temporary\_ftp_files.txt %deploy_server%
 
 del ..\09_temporary\_ftp_files.txt
 
