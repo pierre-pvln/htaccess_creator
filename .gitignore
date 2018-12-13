@@ -13,6 +13,11 @@
 **/backup
 
 ##
+# output files
+##
+06_output/*
+
+##
 # temporary files from building and staging process
 ##
 09_temporary/*

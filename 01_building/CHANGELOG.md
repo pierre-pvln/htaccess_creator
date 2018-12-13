@@ -1,6 +1,11 @@
 ---
 #  Changelog Baselines: .htaccess building blocks building scripts
 ---
+<h4>v.0.0.7 2018-12-13</h4>
+<ul>
+<li>Output changed from .htaccess to htacces.txt as curl can't download .htaccess file</li>
+</ul>
+
 <h4>v.0.0.6 2018-11-30</h4>
 <ul>
 <li>Location of back-up filder changed. Moved to baseline folder structure</li>

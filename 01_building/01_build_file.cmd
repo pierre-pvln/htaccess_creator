@@ -175,8 +175,9 @@ DEL %output_dir%\%baseline%\htaccess_clean.txt
 DEL %output_dir%\%baseline%\htaccess_constructed.txt
 DEL %output_dir%\%baseline%\htaccess_parameters_clean.txt
 
-:: Create the .htaccess file 
-COPY %output_dir%\%baseline%\htaccess_%buildversion%.txt %output_dir%\%baseline%\.htaccess.
+:: Create the htaccess.txt file 
+:: A .htaccess can't be downloaded using CURL :-)
+COPY %output_dir%\%baseline%\htaccess_%buildversion%.txt %output_dir%\%baseline%\htaccess.txt
 
 GOTO CLEAN_EXIT
 
