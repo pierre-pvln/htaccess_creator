@@ -11,7 +11,7 @@ SETLOCAL ENABLEEXTENSIONS
 ::
 ::
 
-SET site_name=pvln
+SET site_name=ver-bind
 SET extension_name=htaccess
 SET deploy_folder=./joomla_01/
 SET secrets_folder=..\..\..\..\_settings

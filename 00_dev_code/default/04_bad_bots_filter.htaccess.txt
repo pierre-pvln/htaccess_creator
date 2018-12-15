@@ -1,7 +1,10 @@
 #===================================
 # - BLOCK04 BAD BOTS FILTER STARTS HERE -
 #===================================
-# Revision: 2018 12 04 - Bad Bots Building blocks created
+# Revision:    2018 12 04 - Bad Bots Building blocks created
+#              2018 12 14 - Site indicator added in comment blocks
+#
+# For site:    default
 #
 # Inspiration: https://www.htmlremix.com/seo/block-google-and-bots-using-htaccess-and-robots-txt
 #              http://tab-studio.com/en/blocking-robots-on-your-page/

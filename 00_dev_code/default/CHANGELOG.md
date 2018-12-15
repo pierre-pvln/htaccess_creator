@@ -1,10 +1,17 @@
 ---
 #  Changelog Baseline: default .htaccess building blocks
 ---
-Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.  
+
+Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.
+
+<h4>v.1.0.2 2018-12-14</h4>
+<ul>
+<li>Site indicator added in comment blocks</li>
+</ul>
+
 <h4>v.1.0.1 2018-12-10</h4>
 <ul>
-<li>typo's fixed</li>
+<li>Typo's fixed</li>
 </ul>
 
 <h4>v.1.0.0 2018-12-07</h4>

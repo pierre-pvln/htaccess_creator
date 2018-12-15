@@ -1,9 +1,12 @@
 #===================================
 # - BLOCK15 REWRITE BASE STARTS HERE -
 #===================================
-# Revision: 2018 11 21 - Building blocks created
-#           2018 11 22 - Structure building blocks aligned
-#           2018 11 23 - <IfModule mod_rewrite.c> check added
+# Revision:    2018 11 21 - Building blocks created
+#              2018 11 22 - Structure building blocks aligned
+#              2018 11 23 - <IfModule mod_rewrite.c> check added
+#              2018 12 14 - Site indicator added in comment blocks
+#
+# For site:    default
 #
 # Inspiration: Default Joomla htaccess.txt file
 #

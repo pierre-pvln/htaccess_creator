@@ -1,9 +1,12 @@
 #===================================
 # - BLOCK03 SECURITY ADDITIONS STARTS HERE -
 #===================================
-# Revision: 2018 11 21 - Building blocks created
-#           2018 11 22 - Structure building blocks aligned
+# Revision:    2018 11 21 - Building blocks created
+#              2018 11 22 - Structure building blocks aligned
+#              2018 12 14 - Site indicator added in comment blocks
 #
+# For site:    default
+# 
 # Inspiration: https://netspecialist.nl/security/516-security-headers
 #              https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/
 #              https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
