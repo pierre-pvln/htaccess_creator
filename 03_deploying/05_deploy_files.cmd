@@ -124,7 +124,7 @@ CD "%extension_folder%"
 IF EXIST .htaccess. ( rename .htaccess. .htaccess_from_site_%dtStamp%. )
 
 ECHO Get the latest version of the file from staging area ...
-CURL http://download.pvln.nl/joomla/baselines/htaccess/%sitename%/htaccess.txt --output .htaccess.
+CURL http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt --output .htaccess.
 COPY .htaccess. .htaccess_to_site_%dtStamp%.
 
 :::: echo xxxxxxxxxxxx 5 xx
