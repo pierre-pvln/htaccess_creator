@@ -1,4 +1,4 @@
-:: Name:     05_deploy_files_to_server.cmd
+:: Name:     05_deploy_files.cmd
 :: Purpose:  FTP file to server
 :: Author:   pierre.veelen@pvln.nl
 ::
