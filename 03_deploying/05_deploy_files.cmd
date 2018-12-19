@@ -16,23 +16,23 @@ SETLOCAL ENABLEEXTENSIONS
 
 ECHO Check if required environment variables are set ...
 IF "%site_name%" == "" (
-   SET ERROR_MESSAGE=Environment variable site_name not set.
+   SET ERROR_MESSAGE=Environment variable site_name not set ...
    GOTO ERROR_EXIT
 )
 IF "%extension_name%" == "" (
-   SET ERROR_MESSAGE=Environment variable extension_name not set.
+   SET ERROR_MESSAGE=Environment variable extension_name not set ...
    GOTO ERROR_EXIT
 )
 IF "%deploy_folder%" == "" (
-   SET ERROR_MESSAGE=Environment variable deploy_folder not set.
+   SET ERROR_MESSAGE=Environment variable deploy_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%secrets_folder%" == "" (
-   SET ERROR_MESSAGE=Environment variable secrets_folder not set.
+   SET ERROR_MESSAGE=Environment variable secrets_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%extension_folder%" == "" (
-   SET ERROR_MESSAGE=Environment variable extension_folder not set.
+   SET ERROR_MESSAGE=Environment variable extension_folder not set ...
    GOTO ERROR_EXIT
 )
 
@@ -65,22 +65,12 @@ ECHO Check if any .htaccess files exists and if so move it to history folder ...
 :: check for specific files without producing output 
 :: inspiration: https://stackoverflow.com/questions/1262708/suppress-command-line-output
 ::
-::::dir /b /A:-D ".htaccess_*"
 dir ".htaccess_*" >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_FILES
 FOR /f %%G in ('dir /b /A:-D ".htaccess_*"') DO (
-    IF %ERRORLEVEL% NEQ 0 Echo An error was found
-    IF %ERRORLEVEL% EQU 0 Echo No error found
-    ECHO =====
-	ECHO %%G
-	ECHO =====
-	MOVE "%%G" ".\_history\"
+    MOVE "%%G" ".\_history\"
 ) 
 :NO_RELEVANT_FILES
-
-::::ECHO TOT HIER WERKT HET GOED
-::::PAUSE
-
 
 :: Sets the proper date and time stamp with 24Hr Time for log file naming convention
 :: inspiration: http://stackoverflow.com/questions/1192476/format-date-and-time-in-a-windows-batch-script
@@ -90,11 +80,8 @@ SET dtStamp9=%date:~9,4%%date:~6,2%%date:~3,2%_0%time:~1,1%%time:~3,2%%time:~6,2
 SET dtStamp24=%date:~9,4%%date:~6,2%%date:~3,2%_%time:~0,2%%time:~3,2%%time:~6,2%
 IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 
-CD "%cmd_dir%" 
-::::CD
-::::ECHO EN TOT HIER ?
-
 ECHO Download current version from website ...
+CD "%cmd_dir%" 
 echo %deploy_user%>%secrets_folder%\_ftp_files.txt
 echo %deploy_pw%>>%secrets_folder%\_ftp_files.txt
 :: switch to binary mode
@@ -107,35 +94,28 @@ echo cd %deploy_folder%>>%secrets_folder%\_ftp_files.txt
 echo get .htaccess>>%secrets_folder%\_ftp_files.txt
 echo bye>>%secrets_folder%\_ftp_files.txt
 
-::::echo %secrets_folder%\_ftp_files.txt
-::::type %secrets_folder%\_ftp_files.txt
-::::echo xxxxxxxxxxxx 3 xx
-::::PAUSE
-
 :: run the actual FTP commandfile
 ftp -s:%secrets_folder%\_ftp_files.txt %deploy_server%
 del %secrets_folder%\_ftp_files.txt
-
-::::echo xxxxxxxxxxxx 4 xx
-::::PAUSE
 
 ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
 IF EXIST .htaccess. ( rename .htaccess. .htaccess_from_site_%dtStamp%. )
 
+ECHO Check if new files exists at staging area ...
+FOR /f "tokens=*" %%G IN ('curl -LI http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt -o /dev/null -w %%{http_code} -s') DO (
+    SET CURL_RESPONSE=%%G
+)
+IF "%CURL_RESPONSE%" NEQ "200" (
+   SET ERROR_MESSAGE=File htaccess.txt is not available at staging area ...
+   GOTO ERROR_EXIT
+)
+
 ECHO Get the latest version of the file from staging area ...
 CURL http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt --output .htaccess.
 COPY .htaccess. .htaccess_to_site_%dtStamp%.
 
-:::: echo xxxxxxxxxxxx 5 xx
-
-
-::::pause
-
 CD "%cmd_dir%" 
-::::CD
-::::ECHO EN TOT HIER DAN 2?
-
 :: put the new version on the website
 echo %deploy_user%>>%secrets_folder%\_ftp_files.txt
 echo %deploy_pw%>>%secrets_folder%\_ftp_files.txt
@@ -147,13 +127,6 @@ echo lcd %extension_folder%	>>%secrets_folder%\_ftp_files.txt
 echo cd %deploy_folder%>>%secrets_folder%\_ftp_files.txt
 echo put .htaccess>>%secrets_folder%\_ftp_files.txt
 echo bye>>%secrets_folder%\_ftp_files.txt
-
-
-echo xxxxxxxxxxxx 6 xx
-
-
-pause
-
 
 :: run the actual FTP commandfile
 ftp -s:%secrets_folder%\_ftp_files.txt %deploy_server%

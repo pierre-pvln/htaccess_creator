@@ -7,10 +7,8 @@
 @ECHO off
 SETLOCAL ENABLEEXTENSIONS
 
-:: Required environment variables:
+:: Setting required environment variables:
 ::
-::
-
 SET site_name=pvln
 SET extension_name=htaccess
 SET deploy_folder=./joomla_01/
@@ -18,6 +16,3 @@ SET secrets_folder=..\..\..\..\_settings
 SET extension_folder=..\..\_5_extensions\_installed\_htaccess
 
 CALL 05_deploy_files.cmd
-
-
-PAUSE
