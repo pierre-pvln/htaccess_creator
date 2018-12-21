@@ -3,6 +3,11 @@
 ---
 
 Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.  
+<h4>v.1.0.3 2018-12-22</h4>
+<ul>
+<li>File 13_custom_redirect.htaccess.txt added for specific changes</li>
+<li>sitemap.xml commented out in 13_custom_redirect.htaccess.txt</li>
+</ul>
 
 <h4>v.1.0.2 2018-12-14</h4>
 <ul>

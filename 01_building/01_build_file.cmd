@@ -91,7 +91,7 @@ IF "%buildparameter.patchversion%" == "" (
 
 :: Determine the build version
 SET buildversion=v%buildparameter.majorversion%.%buildparameter.minorversion%.%buildparameter.patchversion%
-ECHO Builing: %buildversion%
+ECHO Building: %buildversion%
 ECHO For environment: %baseline%
 
 CD "%cmd_dir%"
