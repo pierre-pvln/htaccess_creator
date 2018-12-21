@@ -1,6 +1,11 @@
 ---
 #  Changelog Baselines: .htaccess building blocks deployment scripts
 ---
+<h4>v.0.0.3 2018-12-22</h4>
+<ul>
+<li>htaccess reference files renamed</li>
+</ul>
+
 <h4>v.0.0.2 2018-12-19</h4>
 <ul>
 <li>Some files renamed</li>

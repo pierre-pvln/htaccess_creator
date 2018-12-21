@@ -65,11 +65,19 @@ ECHO Check if any .htaccess files exists and if so move it to history folder ...
 :: check for specific files without producing output 
 :: inspiration: https://stackoverflow.com/questions/1262708/suppress-command-line-output
 ::
+:: For the previous versions
 dir ".htaccess_*" >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_FILES
 FOR /f %%G in ('dir /b /A:-D ".htaccess_*"') DO (
     MOVE "%%G" ".\_history\"
+)
+:: For the new versions
+dir "htaccess_*" >nul 2>&1
+IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_FILES
+FOR /f %%G in ('dir /b /A:-D "htaccess_*"') DO (
+    MOVE "%%G" ".\_history\"
 ) 
+ 
 :NO_RELEVANT_FILES
 
 :: Sets the proper date and time stamp with 24Hr Time for log file naming convention
@@ -100,7 +108,7 @@ del %secrets_folder%\_ftp_files.txt
 
 ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
-IF EXIST .htaccess. ( rename .htaccess. .htaccess_from_site_%dtStamp%. )
+IF EXIST .htaccess. ( rename .htaccess. htaccess_from_site_%dtStamp%.txt )
 
 ECHO Check if new files exists at staging area ...
 FOR /f "tokens=*" %%G IN ('curl -LI http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt -o /dev/null -w %%{http_code} -s') DO (
@@ -113,7 +121,7 @@ IF "%CURL_RESPONSE%" NEQ "200" (
 
 ECHO Get the latest version of the file from staging area ...
 CURL http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt --output .htaccess.
-COPY .htaccess. .htaccess_to_site_%dtStamp%.
+COPY .htaccess. htaccess_to_site_%dtStamp%.txt
 
 CD "%cmd_dir%" 
 :: put the new version on the website

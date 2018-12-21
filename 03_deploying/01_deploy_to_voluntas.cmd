@@ -11,8 +11,8 @@ SETLOCAL ENABLEEXTENSIONS
 ::
 SET site_name=voluntas
 SET extension_name=htaccess
-SET deploy_folder=./joomla_01/
+SET deploy_folder=./domains/voluntas.nl/public_html/
 SET secrets_folder=..\..\..\..\_settings
-SET extension_folder=..\..\_5_extensions\_installed\_htaccess
+SET extension_folder=..\..\_5_extensions\_installed\_robots
 
 CALL 05_deploy_files.cmd
