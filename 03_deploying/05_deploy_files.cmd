@@ -67,18 +67,19 @@ ECHO Check if any .htaccess files exists and if so move it to history folder ...
 ::
 :: For the previous versions
 dir ".htaccess_*" >nul 2>&1
-IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_FILES
+IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_OLD_TYPE_FILES
 FOR /f %%G in ('dir /b /A:-D ".htaccess_*"') DO (
     MOVE "%%G" ".\_history\"
 )
+:NO_RELEVANT_OLD_TYPE_FILES
+
 :: For the new versions
 dir "htaccess_*" >nul 2>&1
-IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_FILES
+IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_NEW_TYPE_FILES
 FOR /f %%G in ('dir /b /A:-D "htaccess_*"') DO (
     MOVE "%%G" ".\_history\"
 ) 
- 
-:NO_RELEVANT_FILES
+:NO_RELEVANT_NEW_TYPE_FILES
 
 :: Sets the proper date and time stamp with 24Hr Time for log file naming convention
 :: inspiration: http://stackoverflow.com/questions/1192476/format-date-and-time-in-a-windows-batch-script
