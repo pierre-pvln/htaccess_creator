@@ -1,5 +1,5 @@
 :: Name:     test_site_redirect.cmd
-:: Purpose:  Checks if various site requests end up
+:: Purpose:  Checks if various site requests end up at site https://www.<<site_name_base>>
 :: Author:   pierre.veelen@pvln.nl
 ::
 ::
@@ -13,6 +13,9 @@
 
 @ECHO off
 SETLOCAL ENABLEEXTENSIONS
+
+:: Clear the screen
+CLS
 
 ECHO Check if required environment variables are set ...
 IF "%site_name_base%" == "" (
@@ -33,10 +36,10 @@ SET cmd_dir=%~dp0
 
 ECHO.
 ECHO Checking http://%site_name_base% ...
-FOR /f "tokens=*" %%G IN ('curl -LI http://%site_name_base% -o nul -w %%{http_code} -s') DO (
+FOR /f "tokens=*" %%G IN ('curl -I http://%site_name_base% -o nul -w %%{http_code} -s') DO (
     SET CURL_RESPONSE_CODE=%%G
 )
-FOR /f "tokens=*" %%G IN ('curl -LI http://%site_name_base% -o nul -w %%{redirect_url} -s') DO (
+FOR /f "tokens=*" %%G IN ('curl -I http://%site_name_base% -o nul -w %%{redirect_url} -s') DO (
     SET CURL_REDIRECT_URL=%%G
 )
 ECHO Server responds with code: %CURL_RESPONSE_CODE% and location: %CURL_REDIRECT_URL% 
