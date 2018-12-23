@@ -3,7 +3,7 @@
 :: Author:   pierre.veelen@pvln.nl
 ::
 ::
-:: Requires environments vaiables to be set:
+:: Requires environments variables to be set:
 ::  site_name
 ::  extension_name
 ::  deploy_folder
@@ -111,8 +111,12 @@ ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
 IF EXIST .htaccess. ( rename .htaccess. htaccess_from_site_%dtStamp%.txt )
 
+:: Inspiration: https://ec.haxx.se/usingcurl-verbose.html (getting response info in variable)
+::              https://stackoverflow.com/questions/313111/is-there-a-dev-null-on-windows 
+::               (-o /dev/null in linux ; -o nul in windows)    
+::
 ECHO Check if new files exists at staging area ...
-FOR /f "tokens=*" %%G IN ('curl -LI http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt -o /dev/null -w %%{http_code} -s') DO (
+FOR /f "tokens=*" %%G IN ('curl -LI http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt -o nul -w %%{http_code} -s') DO (
     SET CURL_RESPONSE=%%G
 )
 IF "%CURL_RESPONSE%" NEQ "200" (
