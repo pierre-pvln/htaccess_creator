@@ -1,8 +1,16 @@
 ---
-#  Changelog: custom 2connect4u .htaccess building blocks
+#  Changelog: custom voluntas .htaccess building blocks
 ---
 
 Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.  
+
+<h4>v.1.0.4 2018-12-23</h4>
+<ul>
+<li>File 03_security_additions.htaccess.txt added for specific settings for voluntas modules</li>
+<li>Appended entry's in script-src</li>
+<li>Added frame-src</li>
+</ul>
+
 <h4>v.1.0.3 2018-12-22</h4>
 <ul>
 <li>File 13_custom_redirect.htaccess.txt added for specific changes</li>
