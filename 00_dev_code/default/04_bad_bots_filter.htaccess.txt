@@ -17,6 +17,7 @@
 ahrefs|\
 dotbot|\
 semrushbot\
+MJ12bot\
 [NC]
 # Bots that are listed above will all:
 # [F] receive a 403 Forbidden error when trying to view your site. 
