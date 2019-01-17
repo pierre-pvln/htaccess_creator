@@ -1,6 +1,11 @@
 ---
 #  Changelog Baselines: .htaccess building blocks building scripts
 ---
+<h4>v.0.0.9 2019-01-17</h4>
+<ul>
+<li>typo's and e-mail changed</li>
+</ul>
+
 <h4>v.0.0.8 2019-01-17</h4>
 <ul>
 <li>Included default version and specific version value in version name</li>

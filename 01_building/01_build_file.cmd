@@ -1,6 +1,6 @@
 :: Name:     01_build_file.cmd
 :: Purpose:  Create the .htaccess file from the building blocks
-:: Author:   pierre.veelen@pvln.nl
+:: Author:   pierre@pvln.nl
 ::
 
 @ECHO off
