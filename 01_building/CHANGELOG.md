@@ -1,6 +1,11 @@
 ---
 #  Changelog Baselines: .htaccess building blocks building scripts
 ---
+<h4>v.0.0.8 2019-01-17</h4>
+<ul>
+<li>Included default version and specific version value in version name</li>
+</ul>
+
 <h4>v.0.0.7 2018-12-13</h4>
 <ul>
 <li>Output changed from .htaccess to htacces.txt as curl can't download .htaccess file</li>
