@@ -16,6 +16,7 @@
 #              2018 12 14 - Site indicator added in comment blocks
 #              2019 01 27 - Additions from  https://github.com/h5bp/server-configs-apache added
 #                           https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/#examples-that-pass-the-hint
+#                           Added media types    
 #
 # 
 # For site:    default
