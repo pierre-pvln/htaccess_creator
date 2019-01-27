@@ -79,7 +79,7 @@
 #     img-src 'self' https://www.google-analytics.com;
 #  script-src 'self' 'unsafe-inline' 'unsafe-eval' http://www.google-analytics.com https://www.googletagmanager.com;
 #  object-src 'none'
-#                                    "
+#
 #
 	Header set Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
 	Header set X-Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
@@ -97,7 +97,7 @@
 #  * is set by some frameworks and server-side languages (e.g.: ASP.NET, PHP), and its value contains information about them (e.g.: their name, version number)
 #  * doesn't provide any value to users, contributes to header bloat, and in some cases, the information it provides can expose vulnerabilities
 #	
-    Header unset X-Powered-By`
+    Header always unset X-Powered-By
 #
 #===================================
 # 2019-01-27 Additional settings
