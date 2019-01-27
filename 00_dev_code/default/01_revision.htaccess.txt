@@ -15,6 +15,8 @@
 #              2018 11 30 - bad bots filter building block added
 #              2018 12 14 - Site indicator added in comment blocks
 #              2019 01 27 - Additions from  https://github.com/h5bp/server-configs-apache added
+#                           https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/#examples-that-pass-the-hint
+#
 # 
 # For site:    default
 #

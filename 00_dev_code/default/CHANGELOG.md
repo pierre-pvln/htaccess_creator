@@ -3,6 +3,11 @@
 ---
 
 Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.
+<h4>v.1.0.4 2019-01-27</h4>
+<ul>
+<li>Additions from https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/#examples-that-pass-the-hint added</li>
+</ul>
+
 <h4>v.1.0.3 2019-01-27</h4>
 <ul>
 <li>Additions from https://github.com/h5bp/server-configs-apache added</li>
