@@ -1,6 +1,8 @@
 # Name:     _version.txt
 # Purpose:  set the versioning elements to a value
 # Author:   pierre.veelen@pvln.nl
+#
+# For site: default
 
 # Using Semantic Versioning (2.0.0) 
 # Major.Minor[.patch]
@@ -20,4 +22,4 @@
 #
 majorversion=1
 minorversion=0
-patchversion=3
+patchversion=4
