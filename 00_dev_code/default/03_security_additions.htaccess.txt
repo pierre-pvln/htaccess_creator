@@ -4,12 +4,14 @@
 # Revision:    2018 11 21 - Building blocks created
 #              2018 11 22 - Structure building blocks aligned
 #              2018 12 14 - Site indicator added in comment blocks
+#              2019 01 27 - Remove the X-Powered-By response header and server signature
 #
 # For site:    default
 # 
 # Inspiration: https://netspecialist.nl/security/516-security-headers
 #              https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/
 #              https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+#              https://github.com/h5bp/server-configs-apache
 #
 #===================================
 #
@@ -72,6 +74,26 @@
 # 2018-09-23 activate Feature-Policy.
 # Feature Policy is being created to allow site owners to enable and disable certain web platform features on their own pages and those they embed.
 	Header set Feature-Policy "vibrate 'self'; sync-xhr 'self'"
+#
+#===================================
+# 2019-01-27 Remove the X-Powered-By response header
+#
+# that:
+#  * is set by some frameworks and server-side languages (e.g.: ASP.NET, PHP), and its value contains information about them (e.g.: their name, version number)
+#  * doesn't provide any value to users, contributes to header bloat, and in some cases, the information it provides can expose vulnerabilities
+#	
+	 Header unset X-Powered-By
+#
+#===================================
+# 2019-01-27 Disable server signature
+#
+# Prevent Apache from adding a trailing footer line containing
+# information about the server to the server-generated documents
+# (e.g.: error messages, directory listings, etc.)
+#
+# https://httpd.apache.org/docs/current/mod/core.html#serversignature
+#
+     ServerSignature Off
 </IfModule>
 
 #

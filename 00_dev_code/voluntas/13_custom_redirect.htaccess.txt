@@ -7,7 +7,7 @@
 #              2018 12 06 - sitemap.xml added
 #              2018 12 14 - Site indicator added in comment blocks
 #
-# For site:    default
+# For site:    voluntas
 #
 # Inspiration: Default Joomla htaccess.txt file
 #
