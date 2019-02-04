@@ -165,16 +165,17 @@ IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 :: If htaccess.txt file exists copy that file to the backup folder en rename that backed-up file.
 ::
 :: check if back_up directory exists
-SET backup_dir=%output_dir%\%baseline%\backup
-IF NOT EXIST "%backup_dir%" (MD "%backup_dir%")
+::SET backup_dir=%output_dir%\backup\%baseline%
+:: backup_dir is set in 04_folders.cmd
+IF NOT EXIST "%backup_dir%\%baseline%" (MD "%backup_dir%\%baseline%")
 
 ::
 IF EXIST "%output_dir%\%baseline%\htaccess_%buildversion%.txt" (
-	COPY "%output_dir%\%baseline%\htaccess_%buildversion%.txt" "%backup_dir%\htaccess_%buildversion%_%dtStamp%.txt"
+	COPY "%output_dir%\%baseline%\htaccess_%buildversion%.txt" "%backup_dir%\%baseline%\htaccess_%buildversion%_%dtStamp%.txt"
 	DEL  "%output_dir%\%baseline%\htaccess_%buildversion%.txt"
 )
 IF EXIST "%output_dir%\%baseline%\htaccess_%buildversion%_comments.txt" (
-	COPY "%output_dir%\%baseline%\htaccess_%buildversion%_comments.txt" "%backup_dir%\htaccess_%buildversion%_%dtStamp%_comments.txt"
+	COPY "%output_dir%\%baseline%\htaccess_%buildversion%_comments.txt" "%backup_dir%\%baseline%\htaccess_%buildversion%_%dtStamp%_comments.txt"
 	DEL  "%output_dir%\%baseline%\htaccess_%buildversion%_comments.txt"
 )
 
@@ -224,6 +225,7 @@ DEL %output_dir%\tmp_header.txt
 DEL %output_dir%\%baseline%\htaccess_clean.txt
 DEL %output_dir%\%baseline%\htaccess_constructed.txt
 DEL %output_dir%\%baseline%\htaccess_parameters_clean.txt
+DEL %output_dir%\default\htaccess_parameters_clean.txt
 
 :: Create the htaccess.txt file 
 :: A .htaccess can't be downloaded using CURL :-)

@@ -1,6 +1,17 @@
 ---
 #  Changelog Baselines: .htaccess building blocks staging scripts
 ---
+<h4>v0.2.0 2019-02-04</h4>
+<ul>
+<li> building of sftp script changed</li>
+<li> added script for pscp</li>
+</ul>
+
+<h4>v0.1.0 2019-02-02</h4>
+<ul>
+<li> Added SFTP support</li>
+</ul>
+
 <h4>v0.0.3 2018-12-10</h4>
 <ul>
 <li> Temp folder changed to 09_temporary</li>
