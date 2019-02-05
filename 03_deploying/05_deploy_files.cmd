@@ -14,7 +14,7 @@
 @ECHO off
 SETLOCAL ENABLEEXTENSIONS
 
-ECHO Check if required environment variables are set ...
+ECHO Check if required environment variables are set. If not exit script ...
 IF "%site_name%" == "" (
    SET ERROR_MESSAGE=Environment variable site_name not set ...
    GOTO ERROR_EXIT
@@ -69,17 +69,21 @@ ECHO Check if any .htaccess files exists and if so move it to history folder ...
 dir ".htaccess_*" >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_OLD_TYPE_FILES
 FOR /f %%G in ('dir /b /A:-D ".htaccess_*"') DO (
+    ECHO Moving %%G to history folder ...
     MOVE "%%G" ".\_history\"
 )
 :NO_RELEVANT_OLD_TYPE_FILES
+ECHO No .htaccess_* file found. Continueing ...
 
 :: For the new versions
 dir "htaccess_*" >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_NEW_TYPE_FILES
 FOR /f %%G in ('dir /b /A:-D "htaccess_*"') DO (
+    ECHO Moving %%G to history folder ...
     MOVE "%%G" ".\_history\"
 ) 
 :NO_RELEVANT_NEW_TYPE_FILES
+ECHO No htaccess_* file found. Continueing ...
 
 :: Sets the proper date and time stamp with 24Hr Time for log file naming convention
 :: inspiration: http://stackoverflow.com/questions/1192476/format-date-and-time-in-a-windows-batch-script
@@ -95,7 +99,10 @@ CALL ftp_get_file.cmd
 
 ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
-IF EXIST .htaccess. ( rename .htaccess. htaccess_from_site_%dtStamp%.txt )
+IF EXIST .htaccess. ( 
+   ECHO Renaming .htaccess to htaccess_from_site_%dtStamp%.txt
+   rename .htaccess. htaccess_from_site_%dtStamp%.txt
+)
 
 :: Inspiration: https://ec.haxx.se/usingcurl-verbose.html (getting response info in variable)
 ::              https://stackoverflow.com/questions/313111/is-there-a-dev-null-on-windows 
