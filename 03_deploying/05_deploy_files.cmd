@@ -89,23 +89,9 @@ SET dtStamp9=%date:~9,4%%date:~6,2%%date:~3,2%_0%time:~1,1%%time:~3,2%%time:~6,2
 SET dtStamp24=%date:~9,4%%date:~6,2%%date:~3,2%_%time:~0,2%%time:~3,2%%time:~6,2%
 IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 
-ECHO Download current version from website ...
+ECHO Download current version of .htaccess from website using ftp ...
 CD "%cmd_dir%" 
-echo %deploy_user%>%secrets_folder%\_ftp_files.txt
-echo %deploy_pw%>>%secrets_folder%\_ftp_files.txt
-:: switch to binary mode
-echo binary>>%secrets_folder%\_ftp_files.txt
-:: disable prompt; process the mput or mget without requiring any reply
-echo prompt>>%secrets_folder%\_ftp_files.txt
-:: change the local directory so output goes there
-echo lcd %extension_folder%	>>%secrets_folder%\_ftp_files.txt
-echo cd %deploy_folder%>>%secrets_folder%\_ftp_files.txt
-echo get .htaccess>>%secrets_folder%\_ftp_files.txt
-echo bye>>%secrets_folder%\_ftp_files.txt
-
-:: run the actual FTP commandfile
-ftp -s:%secrets_folder%\_ftp_files.txt %deploy_server%
-del %secrets_folder%\_ftp_files.txt
+CALL ftp_get_file.cmd
 
 ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
@@ -115,37 +101,23 @@ IF EXIST .htaccess. ( rename .htaccess. htaccess_from_site_%dtStamp%.txt )
 ::              https://stackoverflow.com/questions/313111/is-there-a-dev-null-on-windows 
 ::               (-o /dev/null in linux ; -o nul in windows)    
 ::
-ECHO Check if new files exists at staging area ...
+ECHO Check if htaccess.txt for %site_name% exists at staging area ...
 FOR /f "tokens=*" %%G IN ('curl -LI http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt -o nul -w %%{http_code} -s') DO (
     SET CURL_RESPONSE=%%G
 )
 IF "%CURL_RESPONSE%" NEQ "200" (
-   SET ERROR_MESSAGE=File htaccess.txt is not available at staging area ...
+   SET ERROR_MESSAGE=File htaccess.txt for %site_name% is not available at staging area ...
    GOTO ERROR_EXIT
 )
 
-ECHO Get the latest version of the file from staging area ...
+ECHO Get the htaccess.txt file for %site_name% from staging area ...
 CURL http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt --output .htaccess.
 COPY .htaccess. htaccess_to_site_%dtStamp%.txt
 
 CD "%cmd_dir%" 
-:: put the new version on the website
-echo %deploy_user%>>%secrets_folder%\_ftp_files.txt
-echo %deploy_pw%>>%secrets_folder%\_ftp_files.txt
-:: switch to binary mode
-echo binary>>%secrets_folder%\_ftp_files.txt
-:: disable prompt; process the mput or mget without requiring any reply
-echo prompt>>%secrets_folder%\_ftp_files.txt
-echo lcd %extension_folder%	>>%secrets_folder%\_ftp_files.txt
-echo cd %deploy_folder%>>%secrets_folder%\_ftp_files.txt
-echo put .htaccess>>%secrets_folder%\_ftp_files.txt
-echo bye>>%secrets_folder%\_ftp_files.txt
+CALL ftp_put_file.cmd
 
-:: run the actual FTP commandfile
-ftp -s:%secrets_folder%\_ftp_files.txt %deploy_server%
-del %secrets_folder%\_ftp_files.txt
-
-ECHO Files deployed ...
+ECHO File deployed ...
 GOTO CLEAN_EXIT
 
 :ERROR_EXIT
