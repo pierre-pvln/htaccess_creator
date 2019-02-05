@@ -3,3 +3,4 @@ curl https://raw.githubusercontent.com/pierre-pvln/htaccess_creator/master/03_de
 curl https://raw.githubusercontent.com/pierre-pvln/htaccess_creator/master/03_deploying/05_deploy_files.cmd --output 05_deploy_files.cmd --remote-time
 curl https://raw.githubusercontent.com/pierre-pvln/htaccess_creator/master/03_deploying/ftp_get_file.cmd --output ftp_get_file.cmd --remote-time
 curl https://raw.githubusercontent.com/pierre-pvln/htaccess_creator/master/03_deploying/ftp_put_file.cmd --output ftp_put_file.cmd --remote-time
+curl https://raw.githubusercontent.com/pierre-pvln/htaccess_creator/master/03_deploying/_get_script_files_pvln.cmd --output _get_script_files_pvln.cmd --remote-time
