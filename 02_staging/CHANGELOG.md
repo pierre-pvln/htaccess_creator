@@ -1,6 +1,12 @@
 ---
 #  Changelog Baselines: .htaccess building blocks staging scripts
 ---
+<h4>v0.2.1 2019-02-11</h4>
+<ul>
+<li> code refactoring for selecting and invoking subscripts</li>
+<li> added checking of required environment variables in subscripts</li>
+</ul>
+
 <h4>v0.2.0 2019-02-04</h4>
 <ul>
 <li> building of sftp script changed</li>

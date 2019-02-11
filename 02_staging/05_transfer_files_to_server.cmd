@@ -2,9 +2,12 @@
 :: Purpose:  Transfer files to downloadserver
 :: Author:   pierre@pvln.nl
 ::
-
 @ECHO off
-SETLOCAL ENABLEEXTENSIONS
+::
+:: inspiration: http://batcheero.blogspot.com/2007/06/how-to-enabledelayedexpansion.html
+:: using ENABLEDELAYEDEXPANSION and !env-var! ensures correct operation of script 
+::
+SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
 
 :: BASIC SETTINGS
 :: ==============
@@ -31,130 +34,57 @@ IF EXIST 04_folders.cmd (
 ::
 :: Assume psftp should be used first. Then pscp. If not available choose ftp
 ::
-:CHECK_PSFTP_COMMAND
-SET PSFTP_STAGING_COMMAND=
-ECHO Checking for psftp ...
-WHERE psftp.exe >nul 2>nul
-IF %ERRORLEVEL% NEQ 0 (
-   ECHO psftp not possible ...
-   GOTO CHECK_PSCP_COMMAND
-)
-FOR /F "tokens=*" %%G IN ('where psftp.exe') do (SET PSFTP_STAGING_COMMAND=%%G)
-IF NOT ["%PSFTP_STAGING_COMMAND%"] EQU [] (
-   ECHO Using psftp ...
-   SET staging_command="%PSFTP_STAGING_COMMAND%"
-   GOTO PSFTP_TRANSFER_SCRIPT
-) ELSE (
-   ECHO psftp not possible ...
-)
 
-:CHECK_PSCP_COMMAND
-SET PSCP_STAGING_COMMAND=
-ECHO Checking for pscp ...
-WHERE pscp.exe >nul 2>nul
-IF %ERRORLEVEL% NEQ 0 (
-   ECHO pscp not possible ...
-   GOTO CHECK_FTP_COMMAND
-) 
-FOR /F "tokens=*" %%G IN ('where pscp.exe') do (SET PSCP_STAGING_COMMAND=%%G)
-IF NOT ["%PSCP_STAGING_COMMAND%"] EQU [] (
-   ECHO Using pscp ...
-   SET staging_command="%PSCP_STAGING_COMMAND%"
-   GOTO PSCP_TRANSFER_SCRIPT
-) ELSE (
-   ECHO pscp not possible ...
+:: !! Do not use " or ' at beginning or end of the list
+::    Do not use sftp as the password can't be entered from batch files   
+SET CHECK_PUT_LIST=psftpx pscpx ftp
+::
+:: Reset environment variables
+::
+SET WHICH_PUT_COMMAND=
+SET staging_command=
+
+FOR %%x IN (%CHECK_PUT_LIST%) DO (
+    ECHO Checking for %%x ...
+    where /Q %%x
+    IF !ERRORLEVEL!==0 ( 
+       FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET staging_command=%%G )
+       SET WHICH_PUT_COMMAND=%%x
+	   GOTO PUT_COMMAND_FOUND
+    ) ELSE (
+        ECHO %%x not possible ...		
+    )
 )
+:PUT_COMMAND_NOT_FOUND
+SET ERROR_MESSAGE=A staging transfer command from %CHECK_PUT_LIST% could not be set ...
+GOTO ERROR_EXIT
 
-:CHECK_FTP_COMMAND
-SET FTP_STAGING_COMMAND=
-ECHO Checking for ftp ...
-WHERE ftp.exe >nul 2>nul
-IF %ERRORLEVEL% NEQ 0 (
-   ECHO ftp not possible ...
-   SET ERROR_MESSAGE=Staging transfer command, psftp, pscp or ftp, could not be set
-   GOTO ERROR_EXIT
-)
-FOR /F "tokens=*" %%G IN ('where ftp.exe') do (SET FTP_STAGING_COMMAND=%%G)
-IF NOT ["%FTP_STAGING_COMMAND%"] EQU [] (
-   ECHO Using ftp ...
-   SET staging_command="%FTP_STAGING_COMMAND%"
-   ECHO -%staging_command%- ...
-   GOTO FTP_TRANSFER_SCRIPT
-) ELSE (
-   ECHO ftp not possible ...
-   SET ERROR_MESSAGE=Staging transfer command, psftp, pscp or ftp, could not be set
-   GOTO ERROR_EXIT
-)
-
-:FTP_TRANSFER_SCRIPT
-Echo Transfer using ftp ...
-
-PAUSE
-
+:PUT_COMMAND_FOUND
+ECHO Transfer using %WHICH_PUT_COMMAND% ...
 CD "%cmd_dir%"
-:: CALL ftp_staging_htaccess.cmd
+:: CALL %WHICH_PUT_COMMAND%_staging_htaccess.cmd
 :: returns:
 :: - staging_downloadserver
 :: - staging_user_downloadserver
 :: - staging_pw_downloadserver
 ::
 CD ..\..\..\_secrets
-IF EXIST ftp_staging_htaccess.cmd (
-    CALL ftp_staging_htaccess.cmd
+IF EXIST %WHICH_PUT_COMMAND%_staging_htaccess.cmd (
+    CALL %WHICH_PUT_COMMAND%_staging_htaccess.cmd
 ) ELSE (
-    SET ERROR_MESSAGE=File with ftp staging settings for .htaccess building blocks doesn't exist
+    SET ERROR_MESSAGE=File %WHICH_PUT_COMMAND%_staging_htaccess.cmd with staging settings for .htaccess building blocks doesn't exist
     GOTO ERROR_EXIT
 )
+::
+:: Put the files on the server
+::
 CD "%cmd_dir%"
-IF EXIST ftp_transfer.cmd (
-   CALL ftp_transfer.cmd
+IF EXIST %WHICH_PUT_COMMAND%_put_script.cmd (
+   ECHO running %WHICH_PUT_COMMAND%_put_script.cmd ...
+   CALL %WHICH_PUT_COMMAND%_put_script.cmd
    GOTO CLEAN_EXIT
 ) ELSE (
-   SET ERROR_MESSAGE=File ftp_transfer.cmd script doesn't exist
-   GOTO ERROR_EXIT
-)
-
-:PSCP_TRANSFER_SCRIPT
-ECHO Transfer using pscp ...
-
-PAUSE
-
-CD "%cmd_dir%"
-CD ..\..\..\_secrets
-IF EXIST pscp_staging_htaccess.cmd (
-    CALL pscp_staging_htaccess.cmd
-) ELSE (
-    SET ERROR_MESSAGE=File with pscp staging settings for .htaccess building blocks doesn't exist
-    GOTO ERROR_EXIT
-)
-CD "%cmd_dir%"
-IF EXIST pscp_transfer.cmd (
-   CALL pscp_transfer.cmd
-   GOTO CLEAN_EXIT
-) ELSE (
-   SET ERROR_MESSAGE=File psftp_transfer.cmd script doesn't exist
-   GOTO ERROR_EXIT
-)
-
-:PSFTP_TRANSFER_SCRIPT
-ECHO Transfer using psftp ...
-
-PAUSE
-
-CD "%cmd_dir%"
-CD ..\..\..\_secrets
-IF EXIST psftp_staging_htaccess.cmd (
-    CALL psftp_staging_htaccess.cmd
-) ELSE (
-    SET ERROR_MESSAGE=File with psftp staging settings for .htaccess building blocks doesn't exist
-    GOTO ERROR_EXIT
-)
-CD "%cmd_dir%"
-IF EXIST psftp_transfer.cmd (
-   CALL psftp_transfer.cmd
-   GOTO CLEAN_EXIT
-) ELSE (
-   SET ERROR_MESSAGE=File psftp_transfer.cmd script doesn't exist
+   SET ERROR_MESSAGE=File %WHICH_PUT_COMMAND%_put_script.cmd script doesn't exist
    GOTO ERROR_EXIT
 )
 
