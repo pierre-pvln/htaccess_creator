@@ -5,6 +5,7 @@
 <ul>
 <li> code refactoring for selecting and invoking subscripts</li>
 <li> added checking of required environment variables in subscripts</li>
+<li> subscript files renamed</li>
 </ul>
 
 <h4>v0.2.0 2019-02-04</h4>
