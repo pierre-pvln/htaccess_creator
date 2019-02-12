@@ -95,7 +95,7 @@ IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 
 ECHO Download current version of .htaccess from website using ftp ...
 CD "%cmd_dir%" 
-CALL ftp_get_file.cmd
+CALL ftp_get_script.cmd
 
 ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
@@ -122,7 +122,7 @@ CURL http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt 
 COPY .htaccess. htaccess_to_site_%dtStamp%.txt
 
 CD "%cmd_dir%" 
-CALL ftp_put_file.cmd
+CALL ftp_put_script.cmd
 
 ECHO File deployed ...
 GOTO CLEAN_EXIT

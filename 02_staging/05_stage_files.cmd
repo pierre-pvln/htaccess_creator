@@ -1,6 +1,12 @@
-:: Name:     05_transfer_files_to_server.cmd
-:: Purpose:  Transfer files to downloadserver
+:: Name:     05_stage_files.cmd
+:: Purpose:  Transfer files to staging/downloadserver
 :: Author:   pierre@pvln.nl
+::
+:: Required environment variables
+:: ==============================
+:: extension_name                 the name of the extension
+:: staging_folder                 the folder where the files are stored in on the staging/download server
+:: secrets_folder                 the folder where the secrets are stored
 ::
 @ECHO off
 ::
@@ -8,6 +14,25 @@
 :: using ENABLEDELAYEDEXPANSION and !env-var! ensures correct operation of script 
 ::
 SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
+::
+:: Check if required environment variables are set. If not exit script ...
+::
+IF "%extension_name%" == "" (
+   SET ERROR_MESSAGE=[ERROR] extension_name not set ...
+   GOTO ERROR_EXIT
+)
+IF "%staging_folder%" == "" (
+   SET ERROR_MESSAGE=[ERROR] staging_folder not set ...
+   GOTO ERROR_EXIT
+)
+IF "%secrets_folder%" == "" (
+   SET ERROR_MESSAGE=[ERROR] secrets_folder not set ...
+   GOTO ERROR_EXIT
+)
+::IF "%extension_folder%" == "" (
+::   SET ERROR_MESSAGE=[ERROR] extension_folder not set ...
+::   GOTO ERROR_EXIT
+::)
 
 :: BASIC SETTINGS
 :: ==============
@@ -22,14 +47,14 @@ SET cmd_dir=%~dp0
 
 :: STATIC VARIABLES
 :: ================
-CD ..\04_settings\
+::CD ..\04_settings\
 
-IF EXIST 04_folders.cmd (
-   CALL 04_folders.cmd
-) ELSE (
-   SET ERROR_MESSAGE=File with folder settings doesn't exist
-   GOTO ERROR_EXIT
-)
+::IF EXIST 04_folders.cmd (
+::   CALL 04_folders.cmd
+::) ELSE (
+::   SET ERROR_MESSAGE=File with folder settings doesn't exist
+::   GOTO ERROR_EXIT
+::)
 
 ::
 :: Assume psftp should be used first. Then pscp. If not available choose ftp
@@ -37,7 +62,7 @@ IF EXIST 04_folders.cmd (
 
 :: !! Do not use " or ' at beginning or end of the list
 ::    Do not use sftp as the password can't be entered from batch files   
-SET CHECK_PUT_LIST=psftpx pscpx ftp
+SET CHECK_PUT_LIST=psftp pscp ftp
 ::
 :: Reset environment variables
 ::
@@ -56,23 +81,23 @@ FOR %%x IN (%CHECK_PUT_LIST%) DO (
     )
 )
 :PUT_COMMAND_NOT_FOUND
-SET ERROR_MESSAGE=A staging transfer command from %CHECK_PUT_LIST% could not be set ...
+SET ERROR_MESSAGE=[ERROR] A staging transfer command from %CHECK_PUT_LIST% could not be set ...
 GOTO ERROR_EXIT
 
 :PUT_COMMAND_FOUND
 ECHO Transfer using %WHICH_PUT_COMMAND% ...
 CD "%cmd_dir%"
-:: CALL %WHICH_PUT_COMMAND%_staging_htaccess.cmd
+:: CALL stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd
 :: returns:
 :: - staging_downloadserver
 :: - staging_user_downloadserver
 :: - staging_pw_downloadserver
 ::
-CD ..\..\..\_secrets
-IF EXIST %WHICH_PUT_COMMAND%_staging_htaccess.cmd (
-    CALL %WHICH_PUT_COMMAND%_staging_htaccess.cmd
+CD %secrets_folder%
+IF EXIST stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd (
+    CALL stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd
 ) ELSE (
-    SET ERROR_MESSAGE=File %WHICH_PUT_COMMAND%_staging_htaccess.cmd with staging settings for .htaccess building blocks doesn't exist
+    SET ERROR_MESSAGE=[ERROR] File stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd with staging settings for %extension_name% building blocks doesn't exist
     GOTO ERROR_EXIT
 )
 ::
@@ -84,17 +109,17 @@ IF EXIST %WHICH_PUT_COMMAND%_put_script.cmd (
    CALL %WHICH_PUT_COMMAND%_put_script.cmd
    GOTO CLEAN_EXIT
 ) ELSE (
-   SET ERROR_MESSAGE=File %WHICH_PUT_COMMAND%_put_script.cmd script doesn't exist
+   SET ERROR_MESSAGE=[ERROR] File %WHICH_PUT_COMMAND%_put_script.cmd script doesn't exist
    GOTO ERROR_EXIT
 )
 
 :ERROR_EXIT
 cd "%cmd_dir%" 
 :: remove any existing _staging_files.txt file
-IF EXIST "..\09_temporary\_staging_files.txt" (del "..\09_temporary\_staging_files.txt")
+IF EXIST "%secrets_folder%\_staging_files.txt" (del "%secrets_folder%\_staging_files.txt")
 ECHO *******************
-ECHO Error: %ERROR_MESSAGE%
+ECHO %ERROR_MESSAGE%
 ECHO *******************
    
-:CLEAN_EXIT   
+:CLEAN_EXIT
 timeout /T 10

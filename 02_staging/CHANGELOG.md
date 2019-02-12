@@ -1,6 +1,12 @@
 ---
 #  Changelog Baselines: .htaccess building blocks staging scripts
 ---
+<h4>v0.2.2 2019-02-12</h4>
+<ul>
+<li> comments added</li>
+<li> foldername for temporary files changed</li>
+</ul>
+
 <h4>v0.2.1 2019-02-11</h4>
 <ul>
 <li> code refactoring for selecting and invoking subscripts</li>

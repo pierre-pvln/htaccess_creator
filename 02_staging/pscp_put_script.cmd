@@ -2,6 +2,15 @@
 :: Purpose:  Transfer files to staging/downloadserver using pscp
 :: Author:   pierre@pvln.nl
 ::
+:: Required environment variables
+:: ==============================
+:: - staging_command			  command incl path that is used transfer files to staging/download server
+:: - staging_user_downloadserver  the username on the download server
+:: - staging_pw_downloadserver    the password for that user
+:: - output_dir                   the folder with files that are transfered (on local machine)
+:: - staging_downloadserver       the name or ip-address of the staging/download server 
+:: - staging_folder               the folder where the files are stored in on the staging/download server
+::
 @ECHO off
 ::
 :: Put it on staging/download server
@@ -39,7 +48,7 @@ GOTO CLEAN_EXIT_SUBSCRIPT
 
 :ERROR_EXIT_SUBSCRIPT
 ECHO *******************
-ECHO Error: %ERROR_MESSAGE%
+ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT_SUBSCRIPT   
