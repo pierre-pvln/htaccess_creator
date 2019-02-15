@@ -96,7 +96,7 @@ IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 ECHO Download current version of .htaccess from website using ftp ...
 CD "%cmd_dir%" 
 SET temporary_folder=%secrets_folder%
-CALL ftp_get_script.cmd
+CALL deploy_ftp_get.cmd
 
 ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
@@ -124,7 +124,7 @@ COPY .htaccess. htaccess_to_site_%dtStamp%.txt
 
 CD "%cmd_dir%" 
 SET temporary_folder=%secrets_folder%
-CALL ftp_put_script.cmd
+CALL deploy_ftp_put.cmd
 
 ECHO File deployed ...
 GOTO CLEAN_EXIT
