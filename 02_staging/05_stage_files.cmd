@@ -8,6 +8,7 @@
 :: staging_folder                 the folder where the files are stored in on the staging/download server
 :: secrets_folder                 the folder where the secrets are stored
 :: output_dir                     the folder with files that are transfered (on local machine)
+:: CHECK_TRANSFER_LIST            list off commands which could be used to transfer the files
 ::
 @ECHO off
 ::
@@ -34,11 +35,11 @@ IF "%output_dir%" == "" (
    SET ERROR_MESSAGE=[ERROR] [%~n0 ] output_dir not set ...
    GOTO ERROR_EXIT
 )
-::IF "%extension_folder%" == "" (
-::   SET ERROR_MESSAGE=[ERROR] [%~n0 ] extension_folder not set ...
-::   GOTO ERROR_EXIT
-::)
-
+IF "%CHECK_TRANSFER_LIST%" == "" (
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] CHECK_TRANSFER_LIST not set ...
+   GOTO ERROR_EXIT
+)
+::
 :: BASIC SETTINGS
 :: ==============
 :: Setting the name of the script
@@ -53,8 +54,6 @@ SET cmd_dir=%~dp0
 :: STATIC VARIABLES
 :: ================
 ::CD ..\04_settings\
-				  
- 
 
 ::IF EXIST 04_folders.cmd (
 ::   CALL 04_folders.cmd
@@ -63,13 +62,6 @@ SET cmd_dir=%~dp0
 ::   GOTO ERROR_EXIT
 ::)
 
-::
-:: Assume psftp should be used first. Then pscp. If not available choose ftp
-::
-
-:: !! Do not use " or ' at beginning or end of the list
-::    Do not use sftp as the password can't be entered from batch files   
-SET CHECK_TRANSFER_LIST=psftp pscp ftp
 ::
 :: Reset environment variables
 ::
@@ -119,6 +111,7 @@ SET temporary_folder=%secrets_folder%
 IF EXIST stage_%TRANSFER_COMMAND%_put.cmd (
    ECHO running stage_%TRANSFER_COMMAND%_put.cmd ...
    CALL stage_%TRANSFER_COMMAND%_put.cmd
+   ECHO Files staged ...
    GOTO CLEAN_EXIT
 ) ELSE (
    SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_%TRANSFER_COMMAND%_put.cmd script doesn't exist
@@ -134,5 +127,4 @@ ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT
-ECHO File staged ...
 timeout /T 10
