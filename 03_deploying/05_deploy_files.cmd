@@ -4,11 +4,12 @@
 ::
 :: Required environment variables
 :: ==============================
-::  site_name
-::  extension_name
-::  deploy_folder
-::  secrets_folder
-::  extension_folder
+:: site_name                      the name of the site
+:: extension_name                 the name of the extension
+:: deploy_folder
+:: secrets_folder                 the folder where the secrets are stored
+:: extension_folder               the folder where the old and the newly deployed files are stored
+:: CHECK_TRANSFER_LIST            list off commands which could be used to transfer the files
 ::
 @ECHO off
 ::
@@ -39,7 +40,11 @@ IF "%site_name%" == "" (
    SET ERROR_MESSAGE=[ERROR] [%~n0 ] site_name not set ...
    GOTO ERROR_EXIT
 )
-
+IF "%CHECK_TRANSFER_LIST%" == "" (
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] CHECK_TRANSFER_LIST not set ...
+   GOTO ERROR_EXIT
+)
+::
 :: BASIC SETTINGS
 :: ==============
 :: Setting the name of the script
@@ -173,6 +178,7 @@ SET temporary_folder=%secrets_folder%
 IF EXIST deploy_%TRANSFER_COMMAND%_put.cmd (
    ECHO running deploy_%TRANSFER_COMMAND%_put.cmd ...
    CALL deploy_%TRANSFER_COMMAND%_put.cmd
+   ECHO File deployed ...
    GOTO CLEAN_EXIT
 ) ELSE (
    SET ERROR_MESSAGE=[ERROR] [%~n0 ] File deploy_%TRANSFER_COMMAND%_put.cmd script doesn't exist
@@ -188,5 +194,4 @@ ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT
-ECHO File deployed ...
 timeout /T 10

@@ -12,7 +12,16 @@ SETLOCAL ENABLEEXTENSIONS
 SET site_name=2connect4u
 SET extension_name=htaccess
 SET deploy_folder=./joomla_01/
+:: Where to find the secrets
 SET secrets_folder=..\..\..\..\_settings
 SET extension_folder=..\..\_5_extensions\_installed\_htaccess
+
+::
+:: Assume psftp should be used first. Then pscp. If not available choose ftp
+::
+
+:: !! Do not use " or ' at beginning or end of the list
+::    Do not use sftp as the password can't be entered from batch files   
+SET CHECK_TRANSFER_LIST=psftp pscp ftp
 
 CALL 05_deploy_files.cmd
