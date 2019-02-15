@@ -113,12 +113,12 @@ CD "%cmd_dir%"
 :: For some put actions temporary files are needed. Set a foldername for that.
 ::
 SET temporary_folder=%secrets_folder%
-IF EXIST %WHICH_PUT_COMMAND%_put_script.cmd (
-   ECHO running %WHICH_PUT_COMMAND%_put_script.cmd ...
-   CALL %WHICH_PUT_COMMAND%_put_script.cmd
+IF EXIST stage_%WHICH_PUT_COMMAND%_put.cmd (
+   ECHO running stage_%WHICH_PUT_COMMAND%_put.cmd ...
+   CALL stage_%WHICH_PUT_COMMAND%_put.cmd
    GOTO CLEAN_EXIT
 ) ELSE (
-   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] File %WHICH_PUT_COMMAND%_put_script.cmd script doesn't exist
+   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] File stage_%WHICH_PUT_COMMAND%_put.cmd script doesn't exist
    GOTO ERROR_EXIT
 )
 
