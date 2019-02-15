@@ -16,23 +16,23 @@ SETLOCAL ENABLEEXTENSIONS
 
 ECHO Check if required environment variables are set. If not exit script ...
 IF "%site_name%" == "" (
-   SET ERROR_MESSAGE=Environment variable site_name not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable site_name not set ...
    GOTO ERROR_EXIT
 )
 IF "%extension_name%" == "" (
-   SET ERROR_MESSAGE=Environment variable extension_name not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable extension_name not set ...
    GOTO ERROR_EXIT
 )
 IF "%deploy_folder%" == "" (
-   SET ERROR_MESSAGE=Environment variable deploy_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable deploy_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%secrets_folder%" == "" (
-   SET ERROR_MESSAGE=Environment variable secrets_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable secrets_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%extension_folder%" == "" (
-   SET ERROR_MESSAGE=Environment variable extension_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable extension_folder not set ...
    GOTO ERROR_EXIT
 )
 
@@ -52,7 +52,7 @@ cd %secrets_folder%
 IF EXIST deploy_%extension_name%_%site_name%.cmd (
    CALL deploy_%extension_name%_%site_name%.cmd
 ) ELSE (
-   SET ERROR_MESSAGE=File with deployment settings deploy_%extension_name%_%site_name%.cmd for %extension_name% doesn't exist in %secrets_folder%
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File with deployment settings deploy_%extension_name%_%site_name%.cmd for %extension_name% doesn't exist in %secrets_folder%
    GOTO ERROR_EXIT
 )
 
@@ -95,6 +95,7 @@ IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 
 ECHO Download current version of .htaccess from website using ftp ...
 CD "%cmd_dir%" 
+SET temporary_folder=%secrets_folder%
 CALL ftp_get_script.cmd
 
 ECHO Check if .htaccess. was downloaded then rename it ...
@@ -113,7 +114,7 @@ FOR /f "tokens=*" %%G IN ('curl -LI http://download.pvln.nl/joomla/baselines/hta
     SET CURL_RESPONSE=%%G
 )
 IF "%CURL_RESPONSE%" NEQ "200" (
-   SET ERROR_MESSAGE=File htaccess.txt for %site_name% is not available at staging area ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File htaccess.txt for %site_name% is not available at staging area ...
    GOTO ERROR_EXIT
 )
 
@@ -122,6 +123,7 @@ CURL http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt 
 COPY .htaccess. htaccess_to_site_%dtStamp%.txt
 
 CD "%cmd_dir%" 
+SET temporary_folder=%secrets_folder%
 CALL ftp_put_script.cmd
 
 ECHO File deployed ...
@@ -130,9 +132,9 @@ GOTO CLEAN_EXIT
 :ERROR_EXIT
 cd "%cmd_dir%" 
 :: remove any existing _ftp_files.txt file
-IF EXIST "%secrets_folder%\_ftp_files.txt" (del "%secrets_folder%\_ftp_files.txt")
+IF EXIST "%temporary_folder%\_ftp_files.txt" (del "%temporary_folder%\_ftp_files.txt")
 ECHO *******************
-ECHO Error: %ERROR_MESSAGE%
+ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT

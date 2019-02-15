@@ -1,9 +1,9 @@
 ---
 #  Changelog Baselines: .htaccess building blocks deployment scripts
 ---
-<h4>v.0.0.4 2018-12-23</h4>
+<h4>v.0.0.5 2019-02-15</h4>
 <ul>
-<li>curl output changed from /dev/null to nul </li>
+<li>Error messages changed </li>
 </ul>
 
 <h4>v.0.0.3 2018-12-22</h4>
