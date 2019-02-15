@@ -19,23 +19,23 @@ SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
 :: Check if required environment variables are set. If not exit script ...
 ::
 IF "%extension_name%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] extension_name not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] extension_name not set ...
    GOTO ERROR_EXIT
 )
 IF "%staging_folder%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] staging_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] staging_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%secrets_folder%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] secrets_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] secrets_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%output_dir%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] output_dir not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] output_dir not set ...
    GOTO ERROR_EXIT
 )
 ::IF "%extension_folder%" == "" (
-::   SET ERROR_MESSAGE=[ERROR] extension_folder not set ...
+::   SET ERROR_MESSAGE=[ERROR] [%~n0 ] extension_folder not set ...
 ::   GOTO ERROR_EXIT
 ::)
 
@@ -53,6 +53,8 @@ SET cmd_dir=%~dp0
 :: STATIC VARIABLES
 :: ================
 ::CD ..\04_settings\
+				  
+ 
 
 ::IF EXIST 04_folders.cmd (
 ::   CALL 04_folders.cmd
@@ -67,42 +69,43 @@ SET cmd_dir=%~dp0
 
 :: !! Do not use " or ' at beginning or end of the list
 ::    Do not use sftp as the password can't be entered from batch files   
-SET CHECK_PUT_LIST=psftp pscp ftp
+SET CHECK_TRANSFER_LIST=psftp pscp ftp
 ::
 :: Reset environment variables
 ::
-SET WHICH_PUT_COMMAND=
+SET TRANSFER_COMMAND=
 SET staging_command=
 
-FOR %%x IN (%CHECK_PUT_LIST%) DO (
+FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
     ECHO Checking for %%x ...
     where /Q %%x
     IF !ERRORLEVEL!==0 ( 
        FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET staging_command=%%G )
-       SET WHICH_PUT_COMMAND=%%x
-	   GOTO PUT_COMMAND_FOUND
+       SET TRANSFER_COMMAND=%%x
+	   GOTO TRANSFER_COMMAND_FOUND
     ) ELSE (
         ECHO %%x not possible ...		
     )
 )
-:PUT_COMMAND_NOT_FOUND
-SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] A staging transfer command from %CHECK_PUT_LIST% could not be set ...
+:TRANSFER_COMMAND_NOT_FOUND
+SET ERROR_MESSAGE=[ERROR] [%~n0 ] A staging transfer command from %CHECK_TRANSFER_LIST% could not be set ...
 GOTO ERROR_EXIT
 
-:PUT_COMMAND_FOUND
-ECHO Transfer using %WHICH_PUT_COMMAND% ...
+:TRANSFER_COMMAND_FOUND
+ECHO Transfer using %TRANSFER_COMMAND% ...
+::
 CD "%cmd_dir%"
-:: CALL stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd
+:: CALL stage_%extension_name%_%TRANSFER_COMMAND%.cmd
 :: returns:
 :: - staging_downloadserver
 :: - staging_user_downloadserver
 :: - staging_pw_downloadserver
 ::
 CD %secrets_folder%
-IF EXIST stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd (
-    CALL stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd
+IF EXIST stage_%extension_name%_%TRANSFER_COMMAND%.cmd (
+    CALL stage_%extension_name%_%TRANSFER_COMMAND%.cmd
 ) ELSE (
-    SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] File stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd with staging settings for %extension_name% building blocks doesn't exist
+    SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_%extension_name%_%TRANSFER_COMMAND%.cmd with staging settings for %extension_name% building blocks doesn't exist
     GOTO ERROR_EXIT
 )
 ::
@@ -113,12 +116,12 @@ CD "%cmd_dir%"
 :: For some put actions temporary files are needed. Set a foldername for that.
 ::
 SET temporary_folder=%secrets_folder%
-IF EXIST stage_%WHICH_PUT_COMMAND%_put.cmd (
-   ECHO running stage_%WHICH_PUT_COMMAND%_put.cmd ...
-   CALL stage_%WHICH_PUT_COMMAND%_put.cmd
+IF EXIST stage_%TRANSFER_COMMAND%_put.cmd (
+   ECHO running stage_%TRANSFER_COMMAND%_put.cmd ...
+   CALL stage_%TRANSFER_COMMAND%_put.cmd
    GOTO CLEAN_EXIT
 ) ELSE (
-   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] File stage_%WHICH_PUT_COMMAND%_put.cmd script doesn't exist
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_%TRANSFER_COMMAND%_put.cmd script doesn't exist
    GOTO ERROR_EXIT
 )
 
@@ -131,4 +134,5 @@ ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT
+ECHO File staged ...
 timeout /T 10

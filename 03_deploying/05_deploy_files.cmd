@@ -2,37 +2,41 @@
 :: Purpose:  Deploy files to server
 :: Author:   pierre.veelen@pvln.nl
 ::
-::
-:: Requires environments variables to be set:
+:: Required environment variables
+:: ==============================
 ::  site_name
 ::  extension_name
 ::  deploy_folder
 ::  secrets_folder
 ::  extension_folder
 ::
-
 @ECHO off
-SETLOCAL ENABLEEXTENSIONS
-
-ECHO Check if required environment variables are set. If not exit script ...
-IF "%site_name%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable site_name not set ...
-   GOTO ERROR_EXIT
-)
+::
+:: inspiration: http://batcheero.blogspot.com/2007/06/how-to-enabledelayedexpansion.html
+:: using ENABLEDELAYEDEXPANSION and !env-var! ensures correct operation of script 
+::
+SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
+::
+:: Check if required environment variables are set. If not exit script ...
+::
 IF "%extension_name%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable extension_name not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] extension_name not set ...
    GOTO ERROR_EXIT
 )
 IF "%deploy_folder%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable deploy_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] deploy_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%secrets_folder%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable secrets_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] secrets_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%extension_folder%" == "" (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] Environment variable extension_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] extension_folder not set ...
+   GOTO ERROR_EXIT
+)
+IF "%site_name%" == "" (
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] site_name not set ...
    GOTO ERROR_EXIT
 )
 
@@ -47,8 +51,45 @@ SET drive=%~d0
 :: Setting the directory and drive of this commandfile
 SET cmd_dir=%~dp0
 
-::call deploy_%extension_name%_%sitename%.cmd
-cd %secrets_folder%
+::
+:: Assume psftp should be used first. Then pscp. If not available choose ftp
+::
+
+:: !! Do not use " or ' at beginning or end of the list
+::    Do not use sftp as the password can't be entered from batch files   
+SET CHECK_TRANSFER_LIST=psftp pscp ftp
+::
+:: Reset environment variables
+::
+SET TRANSFER_COMMAND=
+SET deploy_command=
+
+FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
+    ECHO Checking for %%x ...
+    where /Q %%x
+    IF !ERRORLEVEL!==0 ( 
+       FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET deploy_command=%%G )
+       SET TRANSFER_COMMAND=%%x
+	   GOTO TRANSFER_COMMAND_FOUND
+    ) ELSE (
+        ECHO %%x not possible ...		
+    )
+)
+:TRANSFER_COMMAND_NOT_FOUND
+SET ERROR_MESSAGE=[ERROR] [%~n0 ] A deploy command from %CHECK_TRANSFER_LIST% could not be set ...
+GOTO ERROR_EXIT
+
+:TRANSFER_COMMAND_FOUND
+ECHO Transfer using %TRANSFER_COMMAND% ...
+::
+CD "%cmd_dir%"
+:: call deploy_%extension_name%_%sitename%.cmd
+:: returns:
+:: - deploy_downloadserver
+:: - deploy_user_downloadserver
+:: - deploy_pw_downloadserver
+::
+CD %secrets_folder%
 IF EXIST deploy_%extension_name%_%site_name%.cmd (
    CALL deploy_%extension_name%_%site_name%.cmd
 ) ELSE (
@@ -93,10 +134,10 @@ SET dtStamp9=%date:~9,4%%date:~6,2%%date:~3,2%_0%time:~1,1%%time:~3,2%%time:~6,2
 SET dtStamp24=%date:~9,4%%date:~6,2%%date:~3,2%_%time:~0,2%%time:~3,2%%time:~6,2%
 IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 
-ECHO Download current version of .htaccess from website using ftp ...
+ECHO Download current version of .htaccess from website using %TRANSFER_COMMAND% ...
 CD "%cmd_dir%" 
 SET temporary_folder=%secrets_folder%
-CALL deploy_ftp_get.cmd
+CALL deploy_%TRANSFER_COMMAND%_get.cmd
 
 ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
@@ -121,21 +162,31 @@ IF "%CURL_RESPONSE%" NEQ "200" (
 ECHO Get the htaccess.txt file for %site_name% from staging area ...
 CURL http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt --output .htaccess.
 COPY .htaccess. htaccess_to_site_%dtStamp%.txt
-
+::
+:: Put the files on the server
+::
 CD "%cmd_dir%" 
+::
+:: For some put actions temporary files are needed. Set a foldername for that.
+::
 SET temporary_folder=%secrets_folder%
-CALL deploy_ftp_put.cmd
-
-ECHO File deployed ...
-GOTO CLEAN_EXIT
+IF EXIST deploy_%TRANSFER_COMMAND%_put.cmd (
+   ECHO running deploy_%TRANSFER_COMMAND%_put.cmd ...
+   CALL deploy_%TRANSFER_COMMAND%_put.cmd
+   GOTO CLEAN_EXIT
+) ELSE (
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File deploy_%TRANSFER_COMMAND%_put.cmd script doesn't exist
+   GOTO ERROR_EXIT
+)
 
 :ERROR_EXIT
 cd "%cmd_dir%" 
-:: remove any existing _ftp_files.txt file
-IF EXIST "%temporary_folder%\_ftp_files.txt" (del "%temporary_folder%\_ftp_files.txt")
+:: remove any existing _deploy_files.txt file
+IF EXIST "%temporary_folder%\_deploy_files.txt" (del "%temporary_folder%\_deploy_files.txt")
 ECHO *******************
 ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT
+ECHO File deployed ...
 timeout /T 10
