@@ -11,35 +11,36 @@
 :: - staging_downloadserver       the name or ip-address of the staging/download server 
 :: - staging_folder               the folder where the files are stored in on the staging/download server
 ::
-@ECHO off
+:: Remarks
+:: ==============================
+:: %~n0 = the name of this script
 ::
-:: Put it on staging/download server
-:: =================================
+@ECHO off
 ::
 :: Check if required environment variables are set. If not exit script.
 ::
 IF "%staging_command%" == "" (
-   SET ERROR_MESSAGE=[ERROR] staging_command not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] staging_command not set ...
    GOTO ERROR_EXIT_SUBSCRIPT
 )
 IF "%staging_user_downloadserver%" == "" (
-   SET ERROR_MESSAGE=[ERROR] staging_user_downloadserver not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] staging_user_downloadserver not set ...
    GOTO ERROR_EXIT_SUBSCRIPT
 )
 IF "%staging_pw_downloadserver%" == "" (
-   SET ERROR_MESSAGE=[ERROR] staging_pw_downloadserver not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] staging_pw_downloadserver not set ...
    GOTO ERROR_EXIT_SUBSCRIPT
 )
 IF "%output_dir%" == "" (
-   SET ERROR_MESSAGE=[ERROR] output_dir not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] output_dir not set ...
    GOTO ERROR_EXIT_SUBSCRIPT
 )
 IF "%staging_downloadserver%" == "" (
-   SET ERROR_MESSAGE=[ERROR] staging_downloadserver not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] staging_downloadserver not set ...
    GOTO ERROR_EXIT_SUBSCRIPT
 )
 IF "%staging_folder%" == "" (
-   SET ERROR_MESSAGE=[ERROR] staging_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] staging_folder not set ...
    GOTO ERROR_EXIT_SUBSCRIPT
 )
 :: Run the script

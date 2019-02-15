@@ -1,4 +1,4 @@
-:: Name:     batch_test_site_headers_pvln.cmd
+:: Name:     pvln_test_site_headers.cmd
 :: Purpose:  set required environment and run test script 
 :: Author:   pierre@pvln.nl
 :: Revision: 2019 01 27 - initial version

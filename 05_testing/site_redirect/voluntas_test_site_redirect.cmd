@@ -1,4 +1,4 @@
-:: Name:     batch_test_site_redirect.cmd
+:: Name:     voluntas_test_site_redirect.cmd
 :: Purpose:  set required environment and run test script 
 :: Author:   pierre@pvln.nl
 :: Revision: 2018 12 23 - initial version

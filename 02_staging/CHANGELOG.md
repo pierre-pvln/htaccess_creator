@@ -1,6 +1,12 @@
 ---
 #  Changelog Baselines: .htaccess building blocks staging scripts
 ---
+<h4>v0.2.3 2019-02-15</h4>
+<ul>
+<li> Error message contains name of script where error occurred</li>
+<li> foldername for temporary files added as specific</li>
+</ul>
+
 <h4>v0.2.2 2019-02-12</h4>
 <ul>
 <li> comments added</li>

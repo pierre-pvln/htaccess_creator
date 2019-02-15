@@ -7,6 +7,7 @@
 :: extension_name                 the name of the extension
 :: staging_folder                 the folder where the files are stored in on the staging/download server
 :: secrets_folder                 the folder where the secrets are stored
+:: output_dir                     the folder with files that are transfered (on local machine)
 ::
 @ECHO off
 ::
@@ -18,15 +19,19 @@ SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
 :: Check if required environment variables are set. If not exit script ...
 ::
 IF "%extension_name%" == "" (
-   SET ERROR_MESSAGE=[ERROR] extension_name not set ...
+   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] extension_name not set ...
    GOTO ERROR_EXIT
 )
 IF "%staging_folder%" == "" (
-   SET ERROR_MESSAGE=[ERROR] staging_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] staging_folder not set ...
    GOTO ERROR_EXIT
 )
 IF "%secrets_folder%" == "" (
-   SET ERROR_MESSAGE=[ERROR] secrets_folder not set ...
+   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] secrets_folder not set ...
+   GOTO ERROR_EXIT
+)
+IF "%output_dir%" == "" (
+   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] output_dir not set ...
    GOTO ERROR_EXIT
 )
 ::IF "%extension_folder%" == "" (
@@ -81,7 +86,7 @@ FOR %%x IN (%CHECK_PUT_LIST%) DO (
     )
 )
 :PUT_COMMAND_NOT_FOUND
-SET ERROR_MESSAGE=[ERROR] A staging transfer command from %CHECK_PUT_LIST% could not be set ...
+SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] A staging transfer command from %CHECK_PUT_LIST% could not be set ...
 GOTO ERROR_EXIT
 
 :PUT_COMMAND_FOUND
@@ -97,26 +102,30 @@ CD %secrets_folder%
 IF EXIST stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd (
     CALL stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd
 ) ELSE (
-    SET ERROR_MESSAGE=[ERROR] File stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd with staging settings for %extension_name% building blocks doesn't exist
+    SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] File stage_%extension_name%_%WHICH_PUT_COMMAND%.cmd with staging settings for %extension_name% building blocks doesn't exist
     GOTO ERROR_EXIT
 )
 ::
 :: Put the files on the server
 ::
 CD "%cmd_dir%"
+::
+:: For some put actions temporary files are needed. Set a foldername for that.
+::
+SET temporary_folder=%secrets_folder%
 IF EXIST %WHICH_PUT_COMMAND%_put_script.cmd (
    ECHO running %WHICH_PUT_COMMAND%_put_script.cmd ...
    CALL %WHICH_PUT_COMMAND%_put_script.cmd
    GOTO CLEAN_EXIT
 ) ELSE (
-   SET ERROR_MESSAGE=[ERROR] File %WHICH_PUT_COMMAND%_put_script.cmd script doesn't exist
+   SET ERROR_MESSAGE=[ERROR] [05_stage_file.cmd] File %WHICH_PUT_COMMAND%_put_script.cmd script doesn't exist
    GOTO ERROR_EXIT
 )
 
 :ERROR_EXIT
 cd "%cmd_dir%" 
 :: remove any existing _staging_files.txt file
-IF EXIST "%secrets_folder%\_staging_files.txt" (del "%secrets_folder%\_staging_files.txt")
+IF EXIST "%temporary_folder%\_staging_files.txt" (del "%temporary_folder%\_staging_files.txt")
 ECHO *******************
 ECHO %ERROR_MESSAGE%
 ECHO *******************
