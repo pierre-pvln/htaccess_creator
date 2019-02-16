@@ -1,5 +1,5 @@
 ::
 @ECHO off
-CALL 01_build_file.cmd voluntas
+CALL 05_build_file.cmd voluntas
 
 PAUSE
