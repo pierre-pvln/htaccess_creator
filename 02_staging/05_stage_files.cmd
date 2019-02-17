@@ -51,30 +51,33 @@ SET drive=%~d0
 :: Setting the directory and drive of this commandfile
 SET cmd_dir=%~dp0
 
-:: STATIC VARIABLES
-:: ================
-::CD ..\04_settings\
-
-::IF EXIST 04_folders.cmd (
-::   CALL 04_folders.cmd
-::) ELSE (
-::   SET ERROR_MESSAGE=File with folder settings doesn't exist
-::   GOTO ERROR_EXIT
-::)
-
 ::
 :: Reset environment variables
 ::
 SET TRANSFER_COMMAND=
 SET staging_command=
-
+::
+:: Now check if transfer executable is available
+:: Then if security settings are available
+:: And finally if transfer script is available
+::
 FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
     ECHO Checking for %%x ...
     where /Q %%x
     IF !ERRORLEVEL!==0 ( 
        FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET staging_command=%%G )
        SET TRANSFER_COMMAND=%%x
-	   GOTO TRANSFER_COMMAND_FOUND
+	   CD %secrets_folder%
+       IF NOT EXIST stage_%extension_name%_!TRANSFER_COMMAND!.cmd (
+	       SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_%extension_name%_!TRANSFER_COMMAND!.cmd with staging settings for %extension_name% building blocks doesn't exist
+           GOTO ERROR_EXIT
+       )
+       CD "%cmd_dir%"
+	   IF NOT EXIST stage_!TRANSFER_COMMAND!_put.cmd (
+           SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_!TRANSFER_COMMAND!_put.cmd script doesn't exist
+           GOTO ERROR_EXIT
+       )
+       GOTO TRANSFER_COMMAND_FOUND
     ) ELSE (
         ECHO %%x not possible ...		
     )
@@ -86,7 +89,6 @@ GOTO ERROR_EXIT
 :TRANSFER_COMMAND_FOUND
 ECHO Transfer using %TRANSFER_COMMAND% ...
 ::
-CD "%cmd_dir%"
 :: CALL stage_%extension_name%_%TRANSFER_COMMAND%.cmd
 :: returns:
 :: - staging_downloadserver
@@ -94,29 +96,17 @@ CD "%cmd_dir%"
 :: - staging_pw_downloadserver
 ::
 CD %secrets_folder%
-IF EXIST stage_%extension_name%_%TRANSFER_COMMAND%.cmd (
-    CALL stage_%extension_name%_%TRANSFER_COMMAND%.cmd
-) ELSE (
-    SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_%extension_name%_%TRANSFER_COMMAND%.cmd with staging settings for %extension_name% building blocks doesn't exist
-    GOTO ERROR_EXIT
-)
+CALL stage_%extension_name%_%TRANSFER_COMMAND%.cmd
 ::
 :: Put the files on the server
-::
-CD "%cmd_dir%"
-::
 :: For some put actions temporary files are needed. Set a foldername for that.
 ::
 SET temporary_folder=%secrets_folder%
-IF EXIST stage_%TRANSFER_COMMAND%_put.cmd (
-   ECHO running stage_%TRANSFER_COMMAND%_put.cmd ...
-   CALL stage_%TRANSFER_COMMAND%_put.cmd
-   ECHO Files staged ...
-   GOTO CLEAN_EXIT
-) ELSE (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_%TRANSFER_COMMAND%_put.cmd script doesn't exist
-   GOTO ERROR_EXIT
-)
+ECHO running stage_%TRANSFER_COMMAND%_put.cmd ...
+CD "%cmd_dir%"
+CALL stage_%TRANSFER_COMMAND%_put.cmd
+ECHO Files staged ...
+GOTO CLEAN_EXIT
 
 :ERROR_EXIT
 cd "%cmd_dir%" 

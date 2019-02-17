@@ -88,10 +88,10 @@ CD "%cmd_dir%"
 :: - deploy_pw_downloadserver
 ::
 CD %secrets_folder%
-IF EXIST deploy_%extension_name%_%site_name%.cmd (
-   CALL deploy_%extension_name%_%site_name%.cmd
+IF EXIST deploy_%extension_name%_%TRANSFER_COMMAND%.cmd (
+   CALL deploy_%extension_name%_%TRANSFER_COMMAND%.cmd
 ) ELSE (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File with deployment settings deploy_%extension_name%_%site_name%.cmd for %extension_name% doesn't exist in %secrets_folder%
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File with deployment settings deploy_%extension_name%_%TRANSFER_COMMAND%.cmd for %extension_name% doesn't exist in %secrets_folder%
    GOTO ERROR_EXIT
 )
 
