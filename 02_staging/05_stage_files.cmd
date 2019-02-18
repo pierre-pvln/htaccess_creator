@@ -62,24 +62,26 @@ SET staging_command=
 :: And finally if transfer script is available
 ::
 FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
-    ECHO Checking for %%x ...
+    SET ERROR_MESSAGE=
+	ECHO [INFO ] Checking for %%x ...
     where /Q %%x
     IF !ERRORLEVEL!==0 ( 
        FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET staging_command=%%G )
        SET TRANSFER_COMMAND=%%x
-	   CD %secrets_folder%
+	   ECHO [INFO ] Checking requirements for !TRANSFER_COMMAND!
+	   CD "%secrets_folder%"
        IF NOT EXIST stage_%extension_name%_!TRANSFER_COMMAND!.cmd (
 	       SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_%extension_name%_!TRANSFER_COMMAND!.cmd with staging settings for %extension_name% building blocks doesn't exist
-           GOTO ERROR_EXIT
+	       ECHO !ERROR_MESSAGE!
        )
        CD "%cmd_dir%"
 	   IF NOT EXIST stage_!TRANSFER_COMMAND!_put.cmd (
            SET ERROR_MESSAGE=[ERROR] [%~n0 ] File stage_!TRANSFER_COMMAND!_put.cmd script doesn't exist
-           GOTO ERROR_EXIT
+    	   ECHO !ERROR_MESSAGE!
        )
-       GOTO TRANSFER_COMMAND_FOUND
+	   IF "!ERROR_MESSAGE!" == "" GOTO TRANSFER_COMMAND_FOUND
     ) ELSE (
-        ECHO %%x not possible ...		
+        ECHO [INFO ] %%x not possible ...		
     )
 )
 :TRANSFER_COMMAND_NOT_FOUND
@@ -87,7 +89,7 @@ SET ERROR_MESSAGE=[ERROR] [%~n0 ] A staging transfer command from %CHECK_TRANSFE
 GOTO ERROR_EXIT
 
 :TRANSFER_COMMAND_FOUND
-ECHO Transfer using %TRANSFER_COMMAND% ...
+ECHO [INFO ] Transfer using %TRANSFER_COMMAND% ...
 ::
 :: CALL stage_%extension_name%_%TRANSFER_COMMAND%.cmd
 :: returns:
@@ -102,10 +104,10 @@ CALL stage_%extension_name%_%TRANSFER_COMMAND%.cmd
 :: For some put actions temporary files are needed. Set a foldername for that.
 ::
 SET temporary_folder=%secrets_folder%
-ECHO running stage_%TRANSFER_COMMAND%_put.cmd ...
+ECHO [INFO ] Running stage_%TRANSFER_COMMAND%_put.cmd ...
 CD "%cmd_dir%"
 CALL stage_%TRANSFER_COMMAND%_put.cmd
-ECHO Files staged ...
+ECHO [INFO ] Files staged ...
 GOTO CLEAN_EXIT
 
 :ERROR_EXIT
@@ -117,4 +119,4 @@ ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT
-timeout /T 10
+timeout /T 5

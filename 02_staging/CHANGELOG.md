@@ -1,6 +1,12 @@
 ---
 #  Changelog Baselines: .htaccess building blocks staging scripts
 ---
+<h4>v0.2.4 2019-02-18</h4>
+<ul>
+<li> ECHO messages updated</li>
+<li> Earlier checking requirements transfer commands</li>
+</ul>
+
 <h4>v0.2.3 2019-02-15</h4>
 <ul>
 <li> Error message contains name of script where error occurred</li>
