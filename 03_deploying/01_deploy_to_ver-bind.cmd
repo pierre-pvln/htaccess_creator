@@ -1,6 +1,6 @@
-:: Name:     01_deploy_to_pvln.cmd
-:: Purpose:  set enviroment and run deploy script 
-:: Author:   pierre.veelen@pvln.nl
+:: Name:     01_deploy_to_ver-bind.cmd
+:: Purpose:  set environment and run deploy script 
+:: Author:   pierre@pvln.nl
 :: Revision: 2018 12 10 - initial version
 ::
 
@@ -11,10 +11,12 @@ SETLOCAL ENABLEEXTENSIONS
 ::
 SET site_name=ver-bind
 SET extension_name=htaccess
+:: where to put the files on the remote server
 SET deploy_folder=./joomla_01/
-:: Where to find the secrets
-SET secrets_folder=..\..\..\..\_settings
+:: where to put the files on the local machine
 SET extension_folder=..\..\_5_extensions\_installed\_htaccess
+:: Where to find the secrets on the local machine
+SET secrets_folder=..\..\..\..\_settings
 
 ::
 :: Assume psftp should be used first. Then pscp. If not available choose ftp

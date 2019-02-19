@@ -78,7 +78,7 @@ SET ERROR_MESSAGE=[ERROR] [%~n0 ] A deploy command from %CHECK_TRANSFER_LIST% co
 GOTO ERROR_EXIT
 
 :TRANSFER_COMMAND_FOUND
-ECHO Transfer using %TRANSFER_COMMAND% ...
+ECHO [INFO ] Transfer using %TRANSFER_COMMAND% ...
 ::
 CD "%cmd_dir%"
 :: call deploy_%extension_name%_%sitename%.cmd
@@ -99,7 +99,7 @@ CD "%cmd_dir%"
 IF NOT EXIST "%extension_folder%" (MD "%extension_folder%")
 CD "%extension_folder%"
 
-ECHO Check if any .htaccess files exists and if so move it to history folder ... 
+ECHO [INFO ] Check if any .htaccess files exists and if so move it to history folder ... 
 ::
 :: check for specific files without producing output 
 :: inspiration: https://stackoverflow.com/questions/1262708/suppress-command-line-output
@@ -137,7 +137,7 @@ CD "%cmd_dir%"
 SET temporary_folder=%secrets_folder%
 CALL deploy_%TRANSFER_COMMAND%_get.cmd
 
-ECHO Check if .htaccess. was downloaded then rename it ...
+ECHO [INFO ] Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
 IF EXIST .htaccess. ( 
    ECHO [INFO ] Renaming .htaccess to htaccess_from_site_%dtStamp%.txt
