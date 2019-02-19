@@ -89,7 +89,8 @@
 #===================================
 # 2018-09-23 activate Feature-Policy.
 # Feature Policy is being created to allow site owners to enable and disable certain web platform features on their own pages and those they embed.
-	Header set Feature-Policy "vibrate 'self'; sync-xhr 'self'"
+#	Header set Feature-Policy "vibrate 'self'; sync-xhr 'self'"
+	Header set Feature-Policy "sync-xhr 'self'"
 #
 #===================================
 # 2019-01-27 Remove the X-Powered-By response header

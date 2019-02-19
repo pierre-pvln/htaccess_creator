@@ -3,6 +3,10 @@
 ---
 
 Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.
+<h4>v.1.0.8 2019-02-18</h4>
+<ul>
+<li>Removed 'vibrate' in security additions</li>
+</ul>
 
 <h4>v.1.0.6 2019-01-27</h4>
 <ul>
