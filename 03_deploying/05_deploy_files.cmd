@@ -136,6 +136,10 @@ ECHO [INFO ] Download current version of .htaccess from website using %TRANSFER_
 CD "%cmd_dir%" 
 SET temporary_folder=%secrets_folder%
 CALL deploy_%TRANSFER_COMMAND%_get.cmd
+IF %ERRORLEVEL% NEQ 0 (
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] script deploy_%TRANSFER_COMMAND%_get.cmd returned error ...
+   GOTO ERROR_EXIT
+)
 
 ECHO [INFO ] Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
@@ -171,6 +175,10 @@ SET temporary_folder=%secrets_folder%
 IF EXIST deploy_%TRANSFER_COMMAND%_put.cmd (
    ECHO [INFO ] Running deploy_%TRANSFER_COMMAND%_put.cmd ...
    CALL deploy_%TRANSFER_COMMAND%_put.cmd
+   IF %ERRORLEVEL% NEQ 0 (
+      SET ERROR_MESSAGE=[ERROR] [%~n0 ] script deploy_%TRANSFER_COMMAND%_put.cmd returned error ...
+      GOTO ERROR_EXIT
+   )
    ECHO [INFO ] File deployed ...
    GOTO CLEAN_EXIT
 ) ELSE (

@@ -1,6 +1,11 @@
 ---
 #  Changelog Baselines: .htaccess building blocks deployment scripts
 ---
+<h4>v.0.0.6 2019-02-19</h4>
+<ul>
+<li>Added exit codes for subscripts and handling in mainscript</li>
+</ul>
+
 <h4>v.0.0.5 2019-02-15</h4>
 <ul>
 <li>Error messages changed </li>
