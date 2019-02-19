@@ -1,6 +1,6 @@
 :: Name:     05_deploy_files.cmd
 :: Purpose:  Deploy files to server
-:: Author:   pierre.veelen@pvln.nl
+:: Author:   pierre@pvln.nl
 ::
 :: Required environment variables
 :: ==============================
@@ -63,14 +63,14 @@ SET TRANSFER_COMMAND=
 SET deploy_command=
 
 FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
-    ECHO Checking for %%x ...
+    ECHO [INFO ] Checking for %%x ...
     where /Q %%x
     IF !ERRORLEVEL!==0 ( 
        FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET deploy_command=%%G )
        SET TRANSFER_COMMAND=%%x
 	   GOTO TRANSFER_COMMAND_FOUND
     ) ELSE (
-        ECHO %%x not possible ...		
+        ECHO [INFO ] %%x not possible ...		
     )
 )
 :TRANSFER_COMMAND_NOT_FOUND
@@ -108,21 +108,21 @@ ECHO Check if any .htaccess files exists and if so move it to history folder ...
 dir ".htaccess_*" >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_OLD_TYPE_FILES
 FOR /f %%G in ('dir /b /A:-D ".htaccess_*"') DO (
-    ECHO Moving %%G to history folder ...
+    ECHO [INFO ] Moving %%G to history folder ...
     MOVE "%%G" ".\_history\"
 )
 :NO_RELEVANT_OLD_TYPE_FILES
-ECHO No .htaccess_* file found. Continueing ...
+ECHO [INFO ] No .htaccess_* file found. Continueing ...
 
 :: For the new versions
 dir "htaccess_*" >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 GOTO NO_RELEVANT_NEW_TYPE_FILES
 FOR /f %%G in ('dir /b /A:-D "htaccess_*"') DO (
-    ECHO Moving %%G to history folder ...
+    ECHO [INFO ] Moving %%G to history folder ...
     MOVE "%%G" ".\_history\"
 ) 
 :NO_RELEVANT_NEW_TYPE_FILES
-ECHO No htaccess_* file found. Continueing ...
+ECHO [INFO ] No htaccess_* file found. Continueing ...
 
 :: Sets the proper date and time stamp with 24Hr Time for log file naming convention
 :: inspiration: http://stackoverflow.com/questions/1192476/format-date-and-time-in-a-windows-batch-script
@@ -132,7 +132,7 @@ SET dtStamp9=%date:~9,4%%date:~6,2%%date:~3,2%_0%time:~1,1%%time:~3,2%%time:~6,2
 SET dtStamp24=%date:~9,4%%date:~6,2%%date:~3,2%_%time:~0,2%%time:~3,2%%time:~6,2%
 IF "%HOUR:~0,1%" == " " (SET dtStamp=%dtStamp9%) ELSE (SET dtStamp=%dtStamp24%)
 
-ECHO Download current version of .htaccess from website using %TRANSFER_COMMAND% ...
+ECHO [INFO ] Download current version of .htaccess from website using %TRANSFER_COMMAND% ...
 CD "%cmd_dir%" 
 SET temporary_folder=%secrets_folder%
 CALL deploy_%TRANSFER_COMMAND%_get.cmd
@@ -140,15 +140,15 @@ CALL deploy_%TRANSFER_COMMAND%_get.cmd
 ECHO Check if .htaccess. was downloaded then rename it ...
 CD "%extension_folder%"
 IF EXIST .htaccess. ( 
-   ECHO Renaming .htaccess to htaccess_from_site_%dtStamp%.txt
-   rename .htaccess. htaccess_from_site_%dtStamp%.txt
+   ECHO [INFO ] Renaming .htaccess to htaccess_from_site_%dtStamp%.txt
+   RENAME .htaccess. htaccess_from_site_%dtStamp%.txt
 )
 
 :: Inspiration: https://ec.haxx.se/usingcurl-verbose.html (getting response info in variable)
 ::              https://stackoverflow.com/questions/313111/is-there-a-dev-null-on-windows 
 ::               (-o /dev/null in linux ; -o nul in windows)    
 ::
-ECHO Check if htaccess.txt for %site_name% exists at staging area ...
+ECHO [INFO ] Check if htaccess.txt for %site_name% exists at staging area ...
 FOR /f "tokens=*" %%G IN ('curl -LI http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt -o nul -w %%{http_code} -s') DO (
     SET CURL_RESPONSE=%%G
 )
@@ -157,8 +157,8 @@ IF "%CURL_RESPONSE%" NEQ "200" (
    GOTO ERROR_EXIT
 )
 
-ECHO Get the htaccess.txt file for %site_name% from staging area ...
-CURL http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt --output .htaccess.
+ECHO [INFO ] Get the htaccess.txt file for %site_name% from staging area ...
+curl http://download.pvln.nl/joomla/baselines/htaccess/%site_name%/htaccess.txt --output .htaccess.
 COPY .htaccess. htaccess_to_site_%dtStamp%.txt
 ::
 :: Put the files on the server
@@ -169,9 +169,9 @@ CD "%cmd_dir%"
 ::
 SET temporary_folder=%secrets_folder%
 IF EXIST deploy_%TRANSFER_COMMAND%_put.cmd (
-   ECHO running deploy_%TRANSFER_COMMAND%_put.cmd ...
+   ECHO [INFO ] Running deploy_%TRANSFER_COMMAND%_put.cmd ...
    CALL deploy_%TRANSFER_COMMAND%_put.cmd
-   ECHO File deployed ...
+   ECHO [INFO ] File deployed ...
    GOTO CLEAN_EXIT
 ) ELSE (
    SET ERROR_MESSAGE=[ERROR] [%~n0 ] File deploy_%TRANSFER_COMMAND%_put.cmd script doesn't exist
