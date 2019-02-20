@@ -61,14 +61,34 @@ SET cmd_dir=%~dp0
 ::
 SET TRANSFER_COMMAND=
 SET deploy_command=
-
+::
+:: Now check if transfer executable is available. Assumes that get and put can both be performed with transfer executable
+:: Then if security settings are available
+:: And finally if transfer script is available
+::
 FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
-    ECHO [INFO ] Checking for %%x ...
+    SET ERROR_MESSAGE=
+	ECHO [INFO ] Checking for %%x ...
     where /Q %%x
     IF !ERRORLEVEL!==0 ( 
-       FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET deploy_command=%%G )
+       FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET staging_command=%%G )
        SET TRANSFER_COMMAND=%%x
-	   GOTO TRANSFER_COMMAND_FOUND
+	   ECHO [INFO ] Checking requirements for !TRANSFER_COMMAND!
+	   CD "%secrets_folder%"
+       IF NOT EXIST deploy_%extension_name%_!TRANSFER_COMMAND!.cmd (
+	       SET ERROR_MESSAGE=[ERROR] [%~n0 ] File with deployment settings deploy_%extension_name%_%TRANSFER_COMMAND%.cmd for %extension_name% doesn't exist in %secrets_folder%
+	       ECHO !ERROR_MESSAGE!
+       )
+       CD "%cmd_dir%"
+	   IF NOT EXIST deploy_!TRANSFER_COMMAND!_get.cmd (
+           SET ERROR_MESSAGE=[ERROR] [%~n0 ] File deploy_!TRANSFER_COMMAND!_get.cmd script doesn't exist
+    	   ECHO !ERROR_MESSAGE!
+       )
+	   IF NOT EXIST deploy_!TRANSFER_COMMAND!_put.cmd (
+           SET ERROR_MESSAGE=[ERROR] [%~n0 ] File deploy_!TRANSFER_COMMAND!_put.cmd script doesn't exist
+    	   ECHO !ERROR_MESSAGE!
+       )
+	   IF "!ERROR_MESSAGE!" == "" GOTO TRANSFER_COMMAND_FOUND
     ) ELSE (
         ECHO [INFO ] %%x not possible ...		
     )
@@ -81,19 +101,14 @@ GOTO ERROR_EXIT
 ECHO [INFO ] Transfer using %TRANSFER_COMMAND% ...
 ::
 CD "%cmd_dir%"
-:: call deploy_%extension_name%_%sitename%.cmd
+:: call deploy_%extension_name%_%TRANSFER_COMMAND%.cmd
 :: returns:
 :: - deploy_downloadserver
 :: - deploy_user_downloadserver
 :: - deploy_pw_downloadserver
 ::
 CD %secrets_folder%
-IF EXIST deploy_%extension_name%_%TRANSFER_COMMAND%.cmd (
-   CALL deploy_%extension_name%_%TRANSFER_COMMAND%.cmd
-) ELSE (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File with deployment settings deploy_%extension_name%_%TRANSFER_COMMAND%.cmd for %extension_name% doesn't exist in %secrets_folder%
-   GOTO ERROR_EXIT
-)
+CALL deploy_%extension_name%_%TRANSFER_COMMAND%.cmd
 
 CD "%cmd_dir%" 
 IF NOT EXIST "%extension_folder%" (MD "%extension_folder%")
@@ -172,19 +187,14 @@ CD "%cmd_dir%"
 :: For some put actions temporary files are needed. Set a foldername for that.
 ::
 SET temporary_folder=%secrets_folder%
-IF EXIST deploy_%TRANSFER_COMMAND%_put.cmd (
-   ECHO [INFO ] Running deploy_%TRANSFER_COMMAND%_put.cmd ...
-   CALL deploy_%TRANSFER_COMMAND%_put.cmd
-   IF %ERRORLEVEL% NEQ 0 (
-      SET ERROR_MESSAGE=[ERROR] [%~n0 ] script deploy_%TRANSFER_COMMAND%_put.cmd returned error ...
-      GOTO ERROR_EXIT
-   )
-   ECHO [INFO ] File deployed ...
-   GOTO CLEAN_EXIT
-) ELSE (
-   SET ERROR_MESSAGE=[ERROR] [%~n0 ] File deploy_%TRANSFER_COMMAND%_put.cmd script doesn't exist
+ECHO [INFO ] Running deploy_%TRANSFER_COMMAND%_put.cmd ...
+CALL deploy_%TRANSFER_COMMAND%_put.cmd
+IF %ERRORLEVEL% NEQ 0 (
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] script deploy_%TRANSFER_COMMAND%_put.cmd returned error ...
    GOTO ERROR_EXIT
 )
+ECHO [INFO ] File deployed ...
+GOTO CLEAN_EXIT
 
 :ERROR_EXIT
 cd "%cmd_dir%" 
@@ -195,4 +205,4 @@ ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT
-timeout /T 10
+timeout /T 5
