@@ -64,7 +64,7 @@ SET deploy_command=
 ::
 :: Now check if transfer executable is available. Assumes that get and put can both be performed with transfer executable
 :: Then if security settings are available
-:: And finally if transfer script is available
+:: And finally if transfer scripts are available
 ::
 FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
     SET ERROR_MESSAGE=
