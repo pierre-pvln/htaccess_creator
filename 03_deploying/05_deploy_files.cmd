@@ -71,7 +71,7 @@ FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
 	ECHO [INFO ] Checking for %%x ...
     where /Q %%x
     IF !ERRORLEVEL!==0 ( 
-       FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET staging_command=%%G )
+       FOR /F "tokens=*" %%G IN ( 'WHERE %%x' ) DO ( SET deploy_command=%%G )
        SET TRANSFER_COMMAND=%%x
 	   ECHO [INFO ] Checking requirements for !TRANSFER_COMMAND!
 	   CD "%secrets_folder%"
