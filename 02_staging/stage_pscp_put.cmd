@@ -48,9 +48,10 @@ IF "%staging_folder%" == "" (
 GOTO CLEAN_EXIT_SUBSCRIPT
 
 :ERROR_EXIT_SUBSCRIPT
-ECHO *******************
 ECHO %ERROR_MESSAGE%
-ECHO *******************
-   
+::timeout /T 5
+EXIT /B 1
+
 :CLEAN_EXIT_SUBSCRIPT   
-timeout /T 5
+::timeout /T 5
+EXIT /B 0

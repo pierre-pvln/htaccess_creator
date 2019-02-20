@@ -107,6 +107,10 @@ SET temporary_folder=%secrets_folder%
 ECHO [INFO ] Running stage_%TRANSFER_COMMAND%_put.cmd ...
 CD "%cmd_dir%"
 CALL stage_%TRANSFER_COMMAND%_put.cmd
+IF %ERRORLEVEL% NEQ 0 (
+   SET ERROR_MESSAGE=[ERROR] [%~n0 ] script stage_%TRANSFER_COMMAND%_get.cmd returned error ...
+   GOTO ERROR_EXIT
+)
 ECHO [INFO ] Files staged ...
 GOTO CLEAN_EXIT
 

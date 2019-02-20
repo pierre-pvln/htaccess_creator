@@ -1,6 +1,11 @@
 ---
 #  Changelog Baselines: .htaccess building blocks staging scripts
 ---
+<h4>v0.2.5 2019-02-20</h4>
+<ul>
+<li> Exit code for subscript added</li>
+</ul>
+
 <h4>v0.2.4 2019-02-18</h4>
 <ul>
 <li> ECHO messages updated</li>
