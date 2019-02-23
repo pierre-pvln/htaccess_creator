@@ -1,4 +1,4 @@
-:: Name:     ftp_put_script.cmd
+:: Name:     stage_ftp_put.cmd
 :: Purpose:  Transfer files to staging/downloadserver using ftp
 :: Author:   pierre@pvln.nl
 ::

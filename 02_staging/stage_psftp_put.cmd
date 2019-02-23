@@ -1,4 +1,4 @@
-:: Name:     psftp_put_script.cmd
+:: Name:     stage_psftp_put.cmd
 :: Purpose:  Transfer files to staging/downloadserver using psftp
 :: Author:   pierre@pvln.nl
 ::

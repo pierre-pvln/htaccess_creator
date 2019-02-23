@@ -1,4 +1,4 @@
-:: Name:     pscp_put_script.cmd
+:: Name:     stage_pscp_put.cmd
 :: Purpose:  Transfer files to staging/downloadserver using pscp
 :: Author:   pierre@pvln.nl
 ::
