@@ -24,3 +24,7 @@ CALL test_site_headers.cmd
 SET site_name_base=voluntas.nl
 ECHO %site_name_base%
 CALL test_site_headers.cmd
+
+SET site_name_base=alpacafarm-in-de-puthof.nl
+ECHO %site_name_base%
+CALL test_site_headers.cmd
