@@ -1,5 +1,5 @@
-::
-@ECHO off
-CALL 05_build_file.cmd alpacafarm
-
-PAUSE
+:: 
+@ECHO off 
+CALL 05_build_file.cmd alpacafarm 
+ 
+PAUSE 

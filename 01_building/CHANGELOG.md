@@ -1,6 +1,11 @@
 ---
 #  Changelog Baselines: .htaccess building blocks building scripts
 ---
+<h4>v.0.0.11 2019-03-21</h4>
+<ul>
+<li>_create_build_scripts.cmd added to automatically create all the required build scripts from folder structure</li>
+</ul>
+
 <h4>v.0.0.10 2019-02-19</h4>
 <ul>
 <li>script file renamed</li>
