@@ -1,5 +1,9 @@
 ##
 # Ingore the following files for Git
+# Inspiration: https://git-scm.com/docs/gitignore
+#
+# Version: 2019-03-25
+#
 ##
 
 ##
@@ -8,7 +12,7 @@
 @_*_@/*
 
 ##
-# backup files from build process
+# backup files from build process in any directory
 ##
 **/backup
 
@@ -27,3 +31,9 @@
 ##
 *.pptx
 *.ppt
+
+##
+# previous versions in any directory
+##
+**/history/*
+

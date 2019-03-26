@@ -8,7 +8,7 @@
 :: - staging_user_downloadserver  the username on the download server
 :: - staging_pw_downloadserver    the password for that user
 :: - output_dir                   the folder with files that are transfered (on local machine)
-:: - temporary_folder               the folder where temporary files are stored (on local machine)
+:: - temporary_folder             the folder where temporary files are stored (on local machine)
 :: - staging_downloadserver       the name or ip-address of the staging/download server 
 :: - staging_folder               the folder where the files are stored in on the staging/download server
 ::

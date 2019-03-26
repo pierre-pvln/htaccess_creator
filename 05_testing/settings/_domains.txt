@@ -1,0 +1,15 @@
+# Name:     domains.txt
+# Purpose:  settings for domains 
+# Author:   pierre@pvln.nl
+# Revision: 2019 03 26 - initial version
+#
+pvln=pvln.nl
+2connect4u=2connect4u.nl
+ver-bind=ver-bind.nl
+voluntas=voluntas.nl
+alpacafarm=alpacafarm-in-de-puthof.nl
+initial=initial.pvln.nl
+ozitdatzo=praktijkozitdatzo.nl
+therapie=labyrint-therapie.nl
+coaching=labyrint-coaching.nl
+advies=labyrint-coaching.nl

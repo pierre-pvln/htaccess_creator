@@ -33,26 +33,40 @@ SET drive=%~d0
 :: Setting the directory and drive of this commandfile
 SET cmd_dir=%~dp0
 
+:: Remove any space characters 
+SET site_name_base=%site_name_base: =%
+
+::
+:: Inspiration: https://stackoverflow.com/questions/44502909/batch-file-count-all-occurrences-of-a-character-within-a-string
+::
+SET test_string=%site_name_base%
+SET domain_segments_count=0
+FOR %%a IN (%test_string:.= %) DO SET /a domain_segments_count+=1
+
+:: Add www to site_name_base if it doesn't contain a subdomain (example.com in stead of www.example.com) 
+:: otherwise (subdomain included) use provided site_name_base 
+IF %domain_segments_count% == 2 SET site_name_base=www.%site_name_base%
+
 ECHO.
-ECHO Checking https://www.%site_name_base%/sitemap.xml ...
-FOR /f "tokens=*" %%G IN ('curl -LI https://www.%site_name_base%/sitemap.xml -o nul -w %%{http_code} -s') DO (
+ECHO Checking https://%site_name_base%/sitemap.xml ...
+FOR /f "tokens=*" %%G IN ('curl -LI https://%site_name_base%/sitemap.xml -o nul -w %%{http_code} -s') DO (
     SET CURL_RESPONSE_CODE=%%G
 )
 
 IF "%CURL_RESPONSE_CODE%" NEQ "200" (
-   SET ERROR_MESSAGE=File https://www.%site_name_base%/sitemap.xml is not available ...
+   SET ERROR_MESSAGE=[ERROR] File https://%site_name_base%/sitemap.xml is not available ...
    GOTO ERROR_EXIT
 )
 
 ECHO Show contents of file ...
-CURL https://www.%site_name_base%/sitemap.xml
+CURL https://%site_name_base%/sitemap.xml
 
 GOTO CLEAN_EXIT
 :ERROR_EXIT
 cd "%cmd_dir%" 
 
 ECHO *******************
-ECHO Error: %ERROR_MESSAGE%
+ECHO %ERROR_MESSAGE%
 ECHO *******************
    
 :CLEAN_EXIT
