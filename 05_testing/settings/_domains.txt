@@ -13,3 +13,4 @@ ozitdatzo=praktijkozitdatzo.nl
 therapie=labyrint-therapie.nl
 coaching=labyrint-coaching.nl
 advies=labyrint-coaching.nl
+trappswise=trappswise.nl

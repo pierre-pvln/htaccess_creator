@@ -47,3 +47,7 @@ SET site_name_base=labyrint-coaching.nl
 ECHO labyrint-coaching.nl 
 CALL test_site_headers.cmd 
 :: 
+SET site_name_base=trappswise.nl 
+ECHO trappswise.nl 
+CALL test_site_headers.cmd 
+:: 
