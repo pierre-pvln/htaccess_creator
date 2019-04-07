@@ -3,6 +3,12 @@
 ---
 
 Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.
+<h4>v.1.0.10 2019-04-06</h4>
+<ul>
+<li>Moved specific file redirects to own building block</li>
+<li>Lines removed from 13_custom_redirect</li> 
+</ul>
+
 <h4>v.1.0.9 2019-02-23</h4>
 <ul>
 <li>Unneeded emptylines removed</li>

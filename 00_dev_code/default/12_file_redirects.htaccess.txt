@@ -1,0 +1,49 @@
+#===================================
+# - BLOCK12 FILE REDIRECTS STARTS HERE -
+#===================================
+# Revision:    2019 04 06 - Initial version
+#
+# For site:    default
+#
+# Inspiration: -
+#
+#===================================
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+#
+###
+# =============
+#  sitemap.xml
+# =============
+###
+# If the host is exactly voluntas.nl
+#
+#	RewriteCond %{HTTP_HOST} ^voluntas.nl$ [OR]
+#
+# OR If the host starts with www or test
+#
+#	RewriteCond %{HTTP_HOST} ^(www|test).voluntas.nl$
+#
+# And the URI contains exactly sitemap.xml  
+#
+#	RewriteCond %{REQUEST_URI} ^/sitemap\.xml$
+#
+# Then present output of the osmap component with id 1 in xml format
+#
+#	RewriteRule (.*) https://%{HTTP_HOST}/component/osmap/?view=xml&id=1 [L]
+#
+# 2018-11-11 activated
+# ===============================
+# Assumes that the osmap component is installed in Joomla! and that id 1 of that component can be used
+# [L] stops processing the rule set as the specific site.xml file is found. 
+#
+	RewriteRule ^sitemap.xml$ component/osmap/?view=xml&id=1 [L]
+#	
+</IfModule>
+
+#
+#===================================
+# - BLOCK12 FILE REDIRECTS ENDS HERE -
+#===================================
+#

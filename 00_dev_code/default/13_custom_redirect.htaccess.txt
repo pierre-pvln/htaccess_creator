@@ -38,16 +38,7 @@
 # 2018-10-23 activated
 #===================================
 	RewriteCond %{HTTPS} !=on
-	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-#
-# Settings for sitemap.xml
-# 2018-11-11 activated
-# ===============================
-# Assumes that the osmap component is installed in Joomla! and that id 1 of that component can be used
-# [L] stops processing the rule set as the specific site.xml file is found. 
-#
-	RewriteRule ^sitemap.xml$ component/osmap/?view=xml&id=1 [L]
-#	
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 #
