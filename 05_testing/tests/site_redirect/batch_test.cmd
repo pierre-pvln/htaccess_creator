@@ -11,6 +11,14 @@ SET site_name_base=pvln.nl
 ECHO pvln.nl 
 CALL test_site_redirect.cmd 
 :: 
+SET site_name_base=initial.pvln.nl 
+ECHO initial.pvln.nl 
+CALL test_site_redirect.cmd 
+:: 
+SET site_name_base=mgmt.pvln.nl 
+ECHO mgmt.pvln.nl 
+CALL test_site_redirect.cmd 
+:: 
 SET site_name_base=2connect4u.nl 
 ECHO 2connect4u.nl 
 CALL test_site_redirect.cmd 
@@ -27,10 +35,6 @@ SET site_name_base=alpacafarm-in-de-puthof.nl
 ECHO alpacafarm-in-de-puthof.nl 
 CALL test_site_redirect.cmd 
 :: 
-SET site_name_base=initial.pvln.nl 
-ECHO initial.pvln.nl 
-CALL test_site_redirect.cmd 
-:: 
 SET site_name_base=praktijkozitdatzo.nl 
 ECHO praktijkozitdatzo.nl 
 CALL test_site_redirect.cmd 
@@ -43,8 +47,8 @@ SET site_name_base=labyrint-coaching.nl
 ECHO labyrint-coaching.nl 
 CALL test_site_redirect.cmd 
 :: 
-SET site_name_base=labyrint-coaching.nl 
-ECHO labyrint-coaching.nl 
+SET site_name_base=labyrint-advies.nl 
+ECHO labyrint-advies.nl 
 CALL test_site_redirect.cmd 
 :: 
 SET site_name_base=trappswise.nl 

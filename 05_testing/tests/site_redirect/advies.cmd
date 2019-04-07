@@ -7,7 +7,7 @@ SETLOCAL ENABLEEXTENSIONS
 :: 
 :: Setting required environment variables: 
 :: 
-SET site_name_base=labyrint-coaching.nl 
-ECHO labyrint-coaching.nl 
+SET site_name_base=labyrint-advies.nl 
+ECHO labyrint-advies.nl 
 CALL test_site_redirect.cmd 
  

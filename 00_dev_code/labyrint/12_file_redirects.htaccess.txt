@@ -1,0 +1,85 @@
+#===================================
+# - BLOCK12 FILE REDIRECTS STARTS HERE -
+#===================================
+# Revision:    2019 04 06 - Initial version
+#
+# For site:    labyrint
+#
+# Inspiration: -
+#
+#===================================
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+#
+###
+# =============
+#  sitemap.xml
+# =============
+###
+#
+# = labyrint-therapie =
+#
+# If the host is exactly labyrint-therapie
+#
+	RewriteCond %{HTTP_HOST} ^labyrint-therapie.nl$ [OR]
+#
+# OR If the host starts with www or test
+#
+	RewriteCond %{HTTP_HOST} ^(www|test).labyrint-therapie.nl$
+#
+# And the URI contains exactly sitemap.xml  
+#
+    RewriteCond %{REQUEST_URI} ^/sitemap\.xml$
+#
+# Then present output of the osmap component with id 1 in xml format
+#
+    RewriteRule (.*) https://%{HTTP_HOST}/component/osmap/?view=xml&id=1 [L]
+#
+###
+#
+# = labyrint-coaching =
+#
+# If the host is exactly labyrint-coaching.nl
+#
+	RewriteCond %{HTTP_HOST} ^labyrint-coaching.nl$ [OR]
+#
+# OR If the host starts with www or test
+#
+	RewriteCond %{HTTP_HOST} ^(www|test).labyrint-coaching.nl$
+#
+# And the URI contains exactly sitemap.xml  
+#
+    RewriteCond %{REQUEST_URI} ^/sitemap\.xml$
+#
+# Then present output of the osmap component with id 3 in xml format
+#
+    RewriteRule (.*) https://%{HTTP_HOST}/component/osmap/?view=xml&id=3 [L]
+#
+###
+#
+# = labyrint-advies =
+#
+# If the host is exactly labyrint-advies.nl
+#
+	RewriteCond %{HTTP_HOST} ^labyrint-advies.nl$ [OR]
+#
+# OR If the host starts with www or test
+#
+	RewriteCond %{HTTP_HOST} ^(www|test).labyrint-advies.nl$
+#
+# And the URI contains exactly sitemap.xml  
+#
+    RewriteCond %{REQUEST_URI} ^/sitemap\.xml$
+#
+# Then present output of the osmap component with id 3 in xml format
+#
+    RewriteRule (.*) https://%{HTTP_HOST}/component/osmap/?view=xml&id=4 [L]
+	
+</IfModule>
+
+#
+#===================================
+# - BLOCK12 FILE REDIRECTS ENDS HERE -
+#===================================
+#

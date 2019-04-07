@@ -4,13 +4,21 @@
 # Revision: 2019 03 26 - initial version
 #
 pvln=pvln.nl
-2connect4u=2connect4u.nl
-ver-bind=ver-bind.nl
-voluntas=voluntas.nl
-alpacafarm=alpacafarm-in-de-puthof.nl
 initial=initial.pvln.nl
+mgmt=mgmt.pvln.nl
+#
+2connect4u=2connect4u.nl
+#
+ver-bind=ver-bind.nl
+#
+voluntas=voluntas.nl
+#
+alpacafarm=alpacafarm-in-de-puthof.nl
+#
 ozitdatzo=praktijkozitdatzo.nl
+#
 therapie=labyrint-therapie.nl
 coaching=labyrint-coaching.nl
-advies=labyrint-coaching.nl
+advies=labyrint-advies.nl
+#
 trappswise=trappswise.nl

@@ -19,8 +19,8 @@ SET cmd_dir=%~dp0
 
 :: Retrieving build version parameters for default settings
 ::
-IF NOT EXIST ".\settings\_domains.txt" (
-   SET ERROR_MESSAGE=[ERROR] File .\settings\_domains.txt with domain parameters doesn't exist
+IF NOT EXIST ".\settings\domains.txt" (
+   SET ERROR_MESSAGE=[ERROR] File .\settings\domains.txt with domain parameters doesn't exist
    GOTO ERROR_EXIT
 )
 :: Read parameters file
@@ -28,9 +28,9 @@ IF NOT EXIST ".\settings\_domains.txt" (
 ::              https://ss64.com/nt/for_f.html
 ::
 :: Remove comment lines
-TYPE ".\settings\_domains.txt" | FINDSTR /v # >".\settings\_domains_clean.txt"
+TYPE ".\settings\domains.txt" | FINDSTR /v # >".\settings\domains_clean.txt"
 :: Check parameter file for unwanted characters
-FINDSTR /R "( ) & ' ` \"" ".\settings\_domains_clean.txt" > NUL
+FINDSTR /R "( ) & ' ` \"" ".\settings\domains_clean.txt" > NUL
 IF NOT ERRORLEVEL 1 (
     SET ERROR_MESSAGE=[ERROR] The parameter file contains unwanted characters, and cannot be parsed.
     GOTO ERROR_EXIT
@@ -40,7 +40,7 @@ IF NOT ERRORLEVEL 1 (
 ::
 :: Create individual test script files
 ::
-FOR /F "tokens=1,2 delims==" %%A IN ('FINDSTR /R /X /C:"[^=][^=]*=.*" ".\settings\_domains_clean.txt" ') DO (
+FOR /F "tokens=1,2 delims==" %%A IN ('FINDSTR /R /X /C:"[^=][^=]*=.*" ".\settings\domains_clean.txt" ') DO (
     FOR /F %%G IN ('DIR /b /A:D .\tests') DO (
         ECHO [INFO ] Creating .\tests\%%G\%%A.cmd ...
         ECHO :: Name:     %%A.cmd >.\tests\%%G\%%A.cmd
@@ -71,7 +71,7 @@ FOR /F %%G IN ('DIR /b /A:D .\tests') DO (
     ECHO SETLOCAL ENABLEEXTENSIONS >>.\tests\%%G\batch_test.cmd
     ECHO :: >>.\tests\%%G\batch_test.cmd
     ECHO :: Setting required environment variables: >>.\tests\%%G\batch_test.cmd
-    FOR /F "tokens=1,2 delims==" %%A IN ('FINDSTR /R /X /C:"[^=][^=]*=.*" ".\settings\_domains_clean.txt" ') DO (
+    FOR /F "tokens=1,2 delims==" %%A IN ('FINDSTR /R /X /C:"[^=][^=]*=.*" ".\settings\domains_clean.txt" ') DO (
         ECHO :: >>.\tests\%%G\batch_test.cmd
         ECHO SET site_name_base=%%B >>.\tests\%%G\batch_test.cmd
         ECHO ECHO %%B >>.\tests\%%G\batch_test.cmd
@@ -80,7 +80,7 @@ FOR /F %%G IN ('DIR /b /A:D .\tests') DO (
     ECHO :: >>.\tests\%%G\batch_test.cmd
 )
 
-DEL .\settings\_domains_clean.txt
+DEL .\settings\domains_clean.txt
 
 GOTO CLEAN_EXIT
 
