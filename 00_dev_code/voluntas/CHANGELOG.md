@@ -3,6 +3,11 @@
 ---
 
 Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.  
+<h4>v.1.0.6 2019-01-27</h4>
+<li>default sitemap.xml added</li>
+<ul>
+
+</ul>
 <h4>v.1.0.5 2019-01-27</h4>
 <li>Additions from https://github.com/h5bp/server-configs-apache added</li>
 <ul>

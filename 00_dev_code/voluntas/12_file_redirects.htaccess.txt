@@ -1,0 +1,41 @@
+#===================================
+# - BLOCK12 FILE REDIRECTS STARTS HERE -
+#===================================
+# Revision:    2019 04 06 - Initial version
+#
+# For site:    voluntas
+#
+# Inspiration: -
+#
+#===================================
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+#
+###
+# =============
+#  sitemap.xml
+# =============
+###
+# If the host is exactly voluntas.nl
+#
+	RewriteCond %{HTTP_HOST} ^voluntas.nl$ [OR]
+#
+# OR If the host starts with www or test
+#
+	RewriteCond %{HTTP_HOST} ^(www|test).voluntas.nl$
+#
+# And the URI contains exactly sitemap.xml  
+#
+    RewriteCond %{REQUEST_URI} ^/sitemap\.xml$
+#
+# Then present output of the osmap component with id 1 in xml format
+#
+    RewriteRule (.*) https://%{HTTP_HOST}/component/osmap/?view=xml&id=1 [L]
+</IfModule>
+
+#
+#===================================
+# - BLOCK12 FILE REDIRECTS ENDS HERE -
+#===================================
+#
