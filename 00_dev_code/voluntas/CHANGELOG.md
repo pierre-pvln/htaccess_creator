@@ -3,6 +3,10 @@
 ---
 
 Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.  
+<h4>v.1.0.7 2019-04-30</h4>
+<li>CSP settings changed for usage with new acymailing module</li>
+<ul>
+
 <h4>v.1.0.6 2019-01-27</h4>
 <li>default sitemap.xml added</li>
 <ul>
