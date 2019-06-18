@@ -6,5 +6,6 @@ Goto to the _06_scripts/_htaccess folder of the site and get the required file f
 set domainname=<domain>
 :: get deploy script
 curl https://raw.githubusercontent.com/pierre-pvln/htaccess_creator/master/03_deploying/01_deploy_to_%domainname%.cmd --output 01_deploy_to_%domain%.cmd --remote-time
+:: and run it
 01_deploy_to_%domainname%.cmd
 ```
