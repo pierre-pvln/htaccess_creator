@@ -22,3 +22,6 @@ coaching=labyrint-coaching.nl
 advies=labyrint-advies.nl
 #
 trappswise=trappswise.nl
+#
+ipheion=ipheion.eu
+ipheion-nl=ipheion.nl

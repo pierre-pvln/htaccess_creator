@@ -55,3 +55,11 @@ SET site_name_base=trappswise.nl
 ECHO trappswise.nl 
 CALL test_site_headers.cmd 
 :: 
+SET site_name_base=ipheion.eu 
+ECHO ipheion.eu 
+CALL test_site_headers.cmd 
+:: 
+SET site_name_base=ipheion.nl 
+ECHO ipheion.nl 
+CALL test_site_headers.cmd 
+:: 
