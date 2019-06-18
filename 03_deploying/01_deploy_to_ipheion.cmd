@@ -1,4 +1,4 @@
-:: Name:     01_deploy_to_alpacafarm.cmd
+:: Name:     01_deploy_to_ipheion.cmd
 :: Purpose:  set environment and run deploy script 
 :: Author:   pierre@pvln.nl
 :: Revision: 2018 12 10 - initial version
@@ -9,7 +9,7 @@ SETLOCAL ENABLEEXTENSIONS
 
 :: Setting required environment variables:
 ::
-SET site_name=alpacafarm
+SET site_name=ipheion
 SET extension_name=htaccess
 :: where to put the files on the remote server
 SET deploy_folder=./joomla_01/
