@@ -6,6 +6,14 @@ Keeps track of all the changes. Thus number of buildings blocks as well as chang
 
 <h4>v.1.0.2 2018-12-14</h4>
 <ul>
+<li>https://netdna.bootstrapcdn.com/ added at style-src and font-src</br
+    required by JCH Optimize plugin</li>
+</ul>
+
+https://netdna.bootstrapcdn.com/
+
+<h4>v.1.0.2 2018-12-14</h4>
+<ul>
 <li>Site indicator added in comment blocks</li>
 </ul>
 
