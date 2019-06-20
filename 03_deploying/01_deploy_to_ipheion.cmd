@@ -16,7 +16,7 @@ SET deploy_folder=./joomla_01/
 :: where to put the files on the local machine
 SET extension_folder=..\..\_5_extensions\_installed\_htaccess
 :: Where to find the secrets on the local machine
-SET secrets_folder=..\..\..\..\_settings
+SET secrets_folder=..\..\..\_settings
 
 ::
 :: Assume psftp should be used first. Then pscp. If not available choose ftp
