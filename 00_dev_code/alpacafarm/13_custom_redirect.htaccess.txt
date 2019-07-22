@@ -1,0 +1,54 @@
+#===================================
+# - BLOCK13 CUSTOM REDIRECTS STARTS HERE -
+#===================================
+# Revision:    2019-07-22 www to non-www redirect added 
+#
+# For site:    alpacafarm
+#
+# Inspiration: Default Joomla htaccess.txt file
+#
+#===================================
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+##
+# If you need to redirect some pages, or set a canonical non-www to
+# www redirect (or vice versa), place that code here. Ensure those
+# redirects use the correct RewriteRule syntax and the [R=301,L] flags.
+#
+#===================================
+# Settings for non-www tot www redirect
+#===================================
+# Check if web address does not start with www 
+# 2018-11-11 activated
+#===================================
+#	RewriteCond %{HTTP_HOST} !^www\.
+# Include more domains besides www
+# RewriteCond %{HTTP_HOST} !^(www|sub1|sub2)\.
+# and also forward it to https
+#
+#	RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+#
+#===================================
+# Settings for www tot non-www redirect
+#===================================
+# Check if web address does not start with www 
+# 2019-07-09 activated
+#===================================
+	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#  and also forward it to https
+	RewriteRule ^(.*)$ https://%1/$1 [R=301]
+#
+#===================================
+# Settings for SSL implementation
+# 2018-10-23 activated
+#===================================
+	RewriteCond %{HTTPS} !=on
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+#
+#===================================
+# - BLOCK13 CUSTOM REDIRECTS ENDS HERE -
+#===================================
+#
