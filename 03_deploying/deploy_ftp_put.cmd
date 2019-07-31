@@ -1,4 +1,4 @@
-:: Name:     ftp_put_script.cmd
+:: Name:     deploy_ftp_put.cmd
 :: Purpose:  Transfer files to webserver using ftp
 :: Author:   pierre@pvln.nl
 ::

@@ -1,4 +1,4 @@
-:: Name:     ftp_get_script.cmd
+:: Name:     deploy_ftp_get.cmd
 :: Purpose:  Transfer files from downloadserver using ftp
 :: Author:   pierre@pvln.nl
 ::

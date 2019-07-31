@@ -85,11 +85,11 @@ IF "%buildparameter.majorversion%" == "" (
 	SET buildparameter.majorversion=0
 )
 IF "%buildparameter.minorversion%" == "" (
-	ECHO [INFO ]The buildparameter.minorversion is not defined. Setting it to 0.
+	ECHO [INFO ] The buildparameter.minorversion is not defined. Setting it to 0.
 	SET buildparameter.minorversion=0
 )
 IF "%buildparameter.patchversion%" == "" (
-	ECHO [INFO ]The buildparameter.patchversion is not defined. Setting it to 0.
+	ECHO [INFO ] The buildparameter.patchversion is not defined. Setting it to 0.
 	SET buildparameter.patchversion=0
 )
 
@@ -127,7 +127,7 @@ IF "%buildparameter.majorversion%" == "" (
 	SET buildparameter.majorversion=0
 )
 IF "%buildparameter.minorversion%" == "" (
-	ECHO [INFO ]The buildparameter.minorversion is not defined. Setting it to 0.
+	ECHO [INFO ] The buildparameter.minorversion is not defined. Setting it to 0.
 	SET buildparameter.minorversion=0
 )
 IF "%buildparameter.patchversion%" == "" (

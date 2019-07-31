@@ -1,6 +1,11 @@
 ---
 #  Changelog Baselines: .htaccess building blocks deployment scripts
 ---
+<h4>v.0.0.7 2019-07-31</h4>
+<ul>
+<li>typo's in filename set</li>
+</ul>
+
 <h4>v.0.0.6 2019-02-19</h4>
 <ul>
 <li>Added exit codes for subscripts and handling in mainscript</li>
