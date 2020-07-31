@@ -1,0 +1,37 @@
+#===================================
+# - BLOCK12 FILE REDIRECTS STARTS HERE -
+#===================================
+# Revision:    2019 04 06 - Initial version
+#              2019 07 11 - changed becasue of non-www policy   
+#
+# For site:    ver-bind
+#
+# Inspiration: https://serverfault.com/questions/861830/chaining-htaccess-rename-rules-is-the-l-directive-necessary
+#
+#===================================
+#
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+#
+###
+# =============
+#  sitemap.xml
+# =============
+###
+# Present output of the osmap component with id 1 in xml format
+#
+# 2018-11-11 activated
+# ===============================
+# Assumes that the osmap component is installed in Joomla! and that id 1 of that component can be used
+# [L] stops processing the rule set as the specific site.xml file is found. 
+#
+    RewriteCond %{REQUEST_URI} !^/component/osmap/?view=xml&id=1 [NC]
+    RewriteCond %{REQUEST_URI} sitemap\.xml [NC]
+    RewriteRule (.*) https://ver-bind.nl/component/osmap/?view=xml&id=1 [L] 
+</IfModule>
+
+#
+#===================================
+# - BLOCK12 FILE REDIRECTS ENDS HERE -
+#===================================
+#
