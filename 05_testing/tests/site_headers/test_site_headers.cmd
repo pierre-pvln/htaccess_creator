@@ -34,13 +34,13 @@ SET cmd_dir=%~dp0
 ::
 :: Inspiration: https://stackoverflow.com/questions/44502909/batch-file-count-all-occurrences-of-a-character-within-a-string
 ::
-set test_string=%site_name_base%
-set domain_segments_count=0
-for %%a in (%test_string:.= %) do set /a domain_segments_count+=1
+:::: set test_string=%site_name_base%
+:::: set domain_segments_count=0
+:::: for %%a in (%test_string:.= %) do set /a domain_segments_count+=1
 
 :: Add www to site_name_base if it doesn't contain a subdomain (example.com in stead of www.example.com) 
 :: otherwise (subdomain included) use provided site_name_base 
-IF %domain_segments_count% == 2 SET site_name_base=www.%site_name_base% 
+::::IF %domain_segments_count% == 2 SET site_name_base=www.%site_name_base% 
 
 :: Inspiration: https://stackoverflow.com/questions/3252851/how-to-display-request-headers-with-command-line-curl
 ::               (-o /dev/null in linux ; -o nul in windows)    

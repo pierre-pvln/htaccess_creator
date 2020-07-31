@@ -63,3 +63,11 @@ SET site_name_base=ipheion.nl
 ECHO ipheion.nl 
 CALL test_site_headers.cmd 
 :: 
+SET site_name_base=reflect-ing.nl 
+ECHO reflect-ing.nl 
+CALL test_site_headers.cmd 
+:: 
+SET site_name_base=v01-baseline-free.ipheion.eu 
+ECHO v01-baseline-free.ipheion.eu 
+CALL test_site_headers.cmd 
+:: 
