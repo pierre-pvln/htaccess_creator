@@ -1,0 +1,126 @@
+#===================================
+# - BLOCK03 SECURITY ADDITIONS STARTS HERE -
+#===================================
+# Revision:    2018 11 21 - Building blocks created
+#              2018 11 22 - Structure building blocks aligned
+#              2018 12 14 - Site indicator added in comment blocks
+#              2019 01 27 - Remove the X-Powered-By response header and server signature
+#                           Removed the always keyword in some settings
+#
+# For site:    alpacafarm
+# 
+# Inspiration: https://netspecialist.nl/security/516-security-headers
+#              https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/
+#              https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+#              https://github.com/h5bp/server-configs-apache
+#              https://httpd.apache.org/docs/current/mod/core.html#serversignature
+#              https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/#examples-that-pass-the-hint
+#
+#===================================
+#
+<IfModule mod_headers.c>
+#
+#===================================
+# 2018-09-04 activate Strict-Transport-Security.
+# Strengthens the implementation of TLS by getting the User Agent to enforce the use of HTTPS
+#
+# The below line sets it for 1 minute. If it doesnt't appears to be working you can remove the line.
+# 1 minute later the browser should work again.
+#	Header set Strict-Transport-Security "max-age=60" env=HTTPS
+#
+# The below line sets it for 1 year. If it doesnt't appears to be working you can remove the line.
+# 1 year later the browser should work again.
+#	Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+#
+# The below line sets it for 30 days. If it doesnt't appears to be working you can remove the line.
+# 30 days later the browser should work again.
+	Header set Strict-Transport-Security "max-age=2592000" env=HTTPS
+#
+#===================================
+# 2018-09-04 activate X-Frame-Options security.
+# Tells the browser whether you want to allow your site to be framed or not. 
+# By preventing a browser from framing your site you can defend against attacks like clickjacking.
+#
+#	Header always set X-Frame-Options "SAMEORIGIN"
+#
+# Update 2019-01027: Strato hosting creates this info 2 times in the header is always is added so always is removed
+	Header set X-Frame-Options "SAMEORIGIN"
+#
+#===================================
+# 2018-09-04 activate X-Xss-Protection security.
+# Sets the configuration for the cross-site scripting filter built into most browsers
+#
+#	Header always set X-Xss-Protection "1; mode=block"
+#
+# Update 2019-01027: Strato hosting creates this info 2 times in the header is always is added so always is removed
+	Header set X-Xss-Protection "1; mode=block"
+#
+#===================================
+# 2018-09-04 activate X-Content-Type-Options Security.
+# Stops a browser from trying to MIME-sniff the content type and forces it to stick with the declared content-type.
+#
+#	Header always set X-Content-Type-Options "nosniff"
+#
+# Update 2019-01027: Strato hosting creates this info 2 times in the header is always is added so always is removed
+	Header set X-Content-Type-Options "nosniff"
+#
+#===================================
+# 2018-09-04 activate Referrer-Policy Security.
+# Stops a browser from trying to MIME-sniff the content type and forces it to stick with the declared content-type. 
+	Header set Referrer-Policy "no-referrer-when-downgrade"
+#
+#===================================
+# 2018-09-22 activate Content-Security-Policy.
+# Defines approved sources of content that the browser may load.
+# Header set Content-Security-Policy "
+#      default-src 'self';
+#         font-src 'self' https://fonts.gstatic.com/;
+#        style-src 'self' 'unsafe-inline' https://*.googleapis.com/;
+#          img-src 'self' https://extensionscdn.joomla.org https://www.google-analytics.com https://www.gstatic.com https://*.google.com;
+#       script-src 'self' 'unsafe-inline' 'unsafe-eval' https://appscdn.joomla.org http://www.google-analytics.com https://www.googletagmanager.com;
+#       object-src 'none';
+#      connect-src 'self'
+#
+#
+	Header set Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://*.googleapis.com/; img-src 'self' https://extensionscdn.joomla.org https://www.google-analytics.com https://www.gstatic.com https://*.google.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://appscdn.joomla.org https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; connect-src 'self'"
+	Header set X-Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/ https://translate.googleapis.com; img-src 'self' https://extensionscdn.joomla.org https://www.google-analytics.com https://www.gstatic.com https://*.google.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://appscdn.joomla.org https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; connect-src 'self'"
+	Header set X-WebKit-CSP "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/ https://translate.googleapis.com; img-src 'self' https://extensionscdn.joomla.org https://www.google-analytics.com https://www.gstatic.com https://*.google.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://appscdn.joomla.org https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; connect-src 'self'"
+#
+#===================================
+# 2018-09-23 activate Feature-Policy.
+# Feature Policy is being created to allow site owners to enable and disable certain web platform features on their own pages and those they embed.
+#	Header set Feature-Policy "vibrate 'self'; sync-xhr 'self'"
+	Header set Feature-Policy "sync-xhr 'self'"
+#
+#===================================
+# 2019-01-27 Remove the X-Powered-By response header
+#
+# that:
+#  * is set by some frameworks and server-side languages (e.g.: ASP.NET, PHP), and its value contains information about them (e.g.: their name, version number)
+#  * doesn't provide any value to users, contributes to header bloat, and in some cases, the information it provides can expose vulnerabilities
+#	
+    Header always unset X-Powered-By
+#
+#===================================
+# 2019-01-27 Additional settings
+#
+    Header unset Public-Key-Pins
+    Header unset Public-Key-Pins-Report-Only
+    Header unset X-AspNet-Version
+    Header unset X-AspNetMvc-version
+    Header unset X-Runtime
+    Header unset X-Version
+#
+#===================================
+# 2019-01-27 Disable server signature
+#
+# Prevent Apache from adding a trailing footer line containing information about the server to the server-generated documents (e.g.: error messages, directory listings, etc.)
+#
+    ServerSignature Off
+</IfModule>
+
+#
+#===================================
+# - BLOCK03 SECURITY ADDITIONS ENDS HERE -
+#===================================
+#

@@ -32,19 +32,12 @@
 #===================================
 # Settings for www tot non-www redirect
 #===================================
-# Check if web address does not start with www 
-# 2019-07-09 activated
+# 2019-08-05
+# Inspiration https://simonecarletti.com/blog/2016/08/redirect-domain-http-https-www-apache/
 #===================================
-	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-#  and also forward it to https
-	RewriteRule ^(.*)$ https://%1/$1 [R=301]
-#
-#===================================
-# Settings for SSL implementation
-# 2018-10-23 activated
-#===================================
-	RewriteCond %{HTTPS} !=on
-	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP_HOST} ^www\. [NC]
+    RewriteRule ^ https://alpacafarm-in-de-puthof.nl%{REQUEST_URI} [L,NE,R=301]
 </IfModule>
 
 #
