@@ -4,6 +4,9 @@
 ::
 
 @ECHO off
+:: Wait time at the end
+SET scriptWaitTime=4
+
 SETLOCAL ENABLEEXTENSIONS
 
 :: BASIC SETTINGS
@@ -16,6 +19,8 @@ SET parent=%~p0
 SET drive=%~d0
 :: Setting the directory and drive of this commandfile
 SET cmd_dir=%~dp0
+:: Wait time at the end
+SET scriptWaitTime=4
 
 :: COMMANDLINE INPUT
 :: =================
@@ -241,6 +246,7 @@ cd "%cmd_dir%"
 ECHO *******************
 ECHO %ERROR_MESSAGE%
 ECHO *******************
+SET scriptWaitTime=10
 
 :CLEAN_EXIT   
-timeout /T 10
+timeout /T %scriptWaitTime%

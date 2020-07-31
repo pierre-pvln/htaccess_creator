@@ -12,6 +12,9 @@
 :: CHECK_TRANSFER_LIST            list off commands which could be used to transfer the files
 ::
 @ECHO off
+:: Wait time at the end
+SET scriptWaitTime=4
+
 ::
 :: inspiration: http://batcheero.blogspot.com/2007/06/how-to-enabledelayedexpansion.html
 :: using ENABLEDELAYEDEXPANSION and !env-var! ensures correct operation of script 
@@ -203,6 +206,8 @@ IF EXIST "%temporary_folder%\_deploy_files.txt" (del "%temporary_folder%\_deploy
 ECHO *******************
 ECHO %ERROR_MESSAGE%
 ECHO *******************
+:: Make sure that there is enough time to read the error message
+SET scriptWaitTime=10
    
 :CLEAN_EXIT
-timeout /T 5
+timeout /T %scriptWaitTime%
