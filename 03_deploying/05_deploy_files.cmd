@@ -76,7 +76,7 @@ FOR %%x IN (%CHECK_TRANSFER_LIST%) DO (
 	   ECHO [INFO ] Checking requirements for !TRANSFER_COMMAND!
 	   CD "%secrets_folder%"
        IF NOT EXIST deploy_%extension_name%_!TRANSFER_COMMAND!.cmd (
-	       SET ERROR_MESSAGE=[ERROR] [%~n0 ] File with deployment settings deploy_%extension_name%_%TRANSFER_COMMAND%.cmd for %extension_name% doesn't exist in %secrets_folder%
+	       SET ERROR_MESSAGE=[ERROR] [%~n0 ] File with deployment settings deploy_%extension_name%_!TRANSFER_COMMAND!.cmd for %extension_name% doesn't exist in %secrets_folder%
 	       ECHO !ERROR_MESSAGE!
        )
        CD "%cmd_dir%"
