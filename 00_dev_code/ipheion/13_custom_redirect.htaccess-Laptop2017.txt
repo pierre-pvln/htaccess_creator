@@ -1,7 +1,7 @@
 #===================================
 # - BLOCK13 CUSTOM REDIRECTS STARTS HERE -
 #===================================
-# Revision:    2019-07-22 www to non-www redirect added 
+# Revision:    2019-070-09 www to non-www redirect added 
 #
 # For site:    ipheion
 #
@@ -32,12 +32,19 @@
 #===================================
 # Settings for www tot non-www redirect
 #===================================
-# 2019-08-05
-# Inspiration https://simonecarletti.com/blog/2016/08/redirect-domain-http-https-www-apache/
+# Check if web address does not start with www 
+# 2019-07-09 activated
 #===================================
-    RewriteCond %{HTTPS} !=on [OR]
-    RewriteCond %{HTTP_HOST} ^www\. [NC]
-    RewriteRule ^ https://ipheion.eu%{REQUEST_URI} [L,NE,R=301]
+	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#  and also forward it to https
+	RewriteRule ^(.*)$ https://%1/$1 [R=301] 
+#
+#===================================
+# Settings for SSL implementation
+# 2018-10-23 activated
+#===================================
+	RewriteCond %{HTTPS} !=on
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 #
