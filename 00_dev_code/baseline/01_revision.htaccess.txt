@@ -1,0 +1,17 @@
+#===================================
+# - BLOCK01 REVISION STARTS HERE -
+#===================================
+# 
+# This revision indicator only keeps track of changes of the number of the building blocks.
+# Changes within the building blocks are commented in the building block itself.
+#
+# Revision:    2020 07 30 - Initial version for v01-baseline-free
+#
+# For site:    v01-baseline-free
+#
+# Inspiration: -
+#
+#===================================
+# - BLOCK01 REVISION ENDS HERE -
+#===================================
+#
