@@ -2,10 +2,11 @@
 # - BLOCK12 FILE REDIRECTS STARTS HERE -
 #===================================
 # Revision:    2019 04 06 - Initial version
+#              2019 07 22 - changed because of non-www policy   
 #
 # For site:    voluntas
 #
-# Inspiration: -
+# Inspiration: https://serverfault.com/questions/861830/chaining-htaccess-rename-rules-is-the-l-directive-necessary
 #
 #===================================
 #
@@ -17,21 +18,16 @@
 #  sitemap.xml
 # =============
 ###
-# If the host is exactly voluntas.nl
+# Present output of the osmap component with id 1 in xml format
 #
-	RewriteCond %{HTTP_HOST} ^voluntas.nl$ [OR]
+# 2019-07-22 activated
+# ===============================
+# Assumes that the osmap component is installed in Joomla! and that id 1 of that component can be used
+# [L] stops processing the rule set as the specific site.xml file is found. 
 #
-# OR If the host starts with www or test
-#
-	RewriteCond %{HTTP_HOST} ^(www|test).voluntas.nl$
-#
-# And the URI contains exactly sitemap.xml  
-#
-    RewriteCond %{REQUEST_URI} ^/sitemap\.xml$
-#
-# Then present output of the osmap component with id 1 in xml format
-#
-    RewriteRule (.*) https://%{HTTP_HOST}/component/osmap/?view=xml&id=1 [L]
+    RewriteCond %{REQUEST_URI} !^/component/osmap/?view=xml&id=1 [NC]
+    RewriteCond %{REQUEST_URI} sitemap\.xml [NC]
+    RewriteRule (.*) https://voluntas.nl/component/osmap/?view=xml&id=1 [L] 
 </IfModule>
 
 #
