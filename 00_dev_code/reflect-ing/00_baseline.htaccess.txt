@@ -1,0 +1,15 @@
+#===================================
+# - BLOCK00 BASELINE STARTS HERE -
+#===================================
+# Revision:    2019 06 18 Initial version for reflect-ing
+# For site:    reflect-ing
+#
+# Inspiration: -
+#
+# Folder with specific buiding blocks for IPHEION
+# Building blocks are different from DEFAULT
+#
+#===================================
+# - BLOCK00 BASELINE ENDS HERE -
+#===================================
+#
