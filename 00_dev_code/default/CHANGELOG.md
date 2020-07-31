@@ -3,6 +3,16 @@
 ---
 
 Keeps track of all the changes. Thus number of buildings blocks as well as changes within the building blocks.
+<h4>v.1.0.12 2020-056-01</h4>
+<ul>
+<li>security additions added data: at img-src to enable downloading picture of google authentication</li>
+</ul>
+
+<h4>v.1.0.11 2019-10-03</h4>
+<ul>
+<li>security additions added apps download location joomla</li>
+</ul>
+
 <h4>v.1.0.10 2019-04-06</h4>
 <ul>
 <li>Moved specific file redirects to own building block</li>

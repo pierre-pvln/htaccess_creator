@@ -6,6 +6,7 @@
 #              2018 12 14 - Site indicator added in comment blocks
 #              2019 01 27 - Remove the X-Powered-By response header and server signature
 #                           Removed the always keyword in some settings
+#              2020 06 01 - Added data: to img-src to enable Google Authenticator app picture
 #
 # For site:    default
 # 
@@ -76,14 +77,14 @@
 # default-src 'self';
 #    font-src 'self' https://fonts.gstatic.com/;
 #   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/;
-#     img-src 'self' https://www.google-analytics.com;
-#  script-src 'self' 'unsafe-inline' 'unsafe-eval' http://www.google-analytics.com https://www.googletagmanager.com;
+#     img-src 'self' https://extensionscdn.joomla.org https://www.google-analytics.com;
+#  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://appscdn.joomla.org http://www.google-analytics.com https://www.googletagmanager.com;
 #  object-src 'none'
 #
 #
-	Header set Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
-	Header set X-Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
-	Header set X-WebKit-CSP "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
+	Header set Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' data: https://extensionscdn.joomla.org https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://appscdn.joomla.org https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
+	Header set X-Content-Security-Policy "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' data: https://extensionscdn.joomla.org https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://appscdn.joomla.org https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
+	Header set X-WebKit-CSP "default-src 'self'; font-src 'self' https://fonts.gstatic.com/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/; img-src 'self' data: https://extensionscdn.joomla.org https://www.google-analytics.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://appscdn.joomla.org https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'"
 #
 #===================================
 # 2018-09-23 activate Feature-Policy.
